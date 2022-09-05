@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="Systems\D2D.h" />
+    <ClInclude Include="Components\framework.h" />
+    <ClInclude Include="Components\targetver.h" />
+    <ClInclude Include="Systems\MainWindow.h" />
+    <ClInclude Include="Shader\ColorShader.h" />
+    <ClInclude Include="Shader\TextureShader.h" />
+    <ClInclude Include="Scenes\SceneManager.h" />
+    <ClInclude Include="Render\Animation\AnimationClip.h" />
+    <ClInclude Include="Render\Animation\Animation.h" />
+    <ClInclude Include="Render\Graphic\Graphic2D.h" />
+    <ClInclude Include="Objects\ObjectManager.h" />
+    <ClInclude Include="Objects\Basic\Line.h" />
+    <ClInclude Include="Objects\Basic\Rect.h" />
+    <ClInclude Include="Objects\Basic\Texture.h" />
+    <ClInclude Include="Render\Graphic\DirectWrite.h" />
+    <ClInclude Include="Base\Hard\Camera.h" />
+    <ClInclude Include="Base\Hard\Keyboard.h" />
+    <ClInclude Include="Base\Hard\Mouse.h" />
+    <ClInclude Include="Base\Soft\GameObject.h" />
+    <ClInclude Include="Base\Hard\GameTime.h" />
+    <ClInclude Include="Base\Soft\Scene.h" />
+    <ClInclude Include="Base\Hard\Audio.h" />
+    <ClInclude Include="Components\SceneList.h" />
+    <ClInclude Include="Components\ObjectList.h" />
+    <ClInclude Include="Scenes\VSScenes\LobbyScene.h" />
+    <ClInclude Include="Scenes\VSScenes\InGameScene.h" />
+    <ClInclude Include="Objects\VamSur\Player.h" />
+    <ClInclude Include="Objects\SRVManager.h" />
+    <ClInclude Include="Scenes\VSScenes\WarningScene.h" />
+    <ClInclude Include="Base\Soft\UIObject.h" />
+    <ClInclude Include="Libraries\imgui_impl_dx11.h" />
+    <ClInclude Include="Libraries\imgui_impl_win32.h" />
+    <ClInclude Include="Libraries\imgui.h" />
+    <ClInclude Include="Libraries\imconfig.h" />
+    <ClInclude Include="Libraries\imguiDx11.h" />
+    <ClInclude Include="Effects\SkillEffect.h" />
+    <ClInclude Include="Objects\VamSur\Monster.h" />
+    <ClInclude Include="Effects\BloodEffect.h" />
+    <ClInclude Include="Objects\MobManager.h" />
+    <ClInclude Include="Objects\VamSur\EquipList.h" />
+    <ClInclude Include="Effects\LvUpEffect.h" />
+    <ClInclude Include="Base\Soft\clipper.hpp" />
+    <ClInclude Include="Base\Soft\Collider.h" />
+    <ClInclude Include="Effects\HitEffect.h" />
+    <ClInclude Include="Components\Resource.h" />
+    <ClInclude Include="Objects\VamSur\DropItem.h" />
+    <ClInclude Include="Effects\ScreenEffect.h" />
+    <ClInclude Include="Effects\FireEffect.h" />
+    <ClInclude Include="Scenes\VSScenes\GameOverScene.h" />
+    <ClInclude Include="Objects\VamSur\Brazier.h" />
+    <ClInclude Include="Util\CSVReader.h" />
+    <ClInclude Include="Util\Convert.h" />
+    <ClInclude Include="Objects\Menues\ChestMenu.h" />
+    <ClInclude Include="Objects\Menues\DeadMenu.h" />
+    <ClInclude Include="Objects\Menues\LevelUpMenu.h" />
+    <ClInclude Include="Objects\Menues\PopUpMenu.h" />
+    <ClInclude Include="Objects\Interface\Button.h" />
+    <ClInclude Include="Objects\Interface\Cursor.h" />
+    <ClInclude Include="Objects\Interface\InGameUI.h" />
+    <ClInclude Include="Objects\Interface\ListCtrl.h" />
+    <ClInclude Include="Objects\Interface\SlideBox.h" />
+    <ClInclude Include="Objects\Interface\CheckBox.h" />
+    <ClInclude Include="Effects\ChestEffect.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Systems\D2D.cpp" />
+    <ClCompile Include="Systems\MainWindow.cpp" />
+    <ClCompile Include="Shader\ColorShader.cpp" />
+    <ClCompile Include="Shader\TextureShader.cpp" />
+    <ClCompile Include="Scenes\SceneManager.cpp" />
+    <ClCompile Include="Render\Animation\AnimationClip.cpp" />
+    <ClCompile Include="Render\Animation\Animation.cpp" />
+    <ClCompile Include="Render\Graphic\Graphic2D.cpp" />
+    <ClCompile Include="Objects\Basic\Line.cpp" />
+    <ClCompile Include="Objects\Basic\Rect.cpp" />
+    <ClCompile Include="Objects\Basic\Texture.cpp" />
+    <ClCompile Include="Render\Graphic\DirectWrite.cpp" />
+    <ClCompile Include="Base\Hard\Camera.cpp" />
+    <ClCompile Include="Base\Hard\Keyboard.cpp" />
+    <ClCompile Include="Base\Hard\Mouse.cpp" />
+    <ClCompile Include="Base\Hard\GameTime.cpp" />
+    <ClCompile Include="Objects\ObjectManager.cpp" />
+    <ClCompile Include="Base\Hard\Audio.cpp" />
+    <ClCompile Include="Scenes\VSScenes\LobbyScene.cpp" />
+    <ClCompile Include="Scenes\VSScenes\InGameScene.cpp" />
+    <ClCompile Include="Objects\VamSur\Player.cpp" />
+    <ClCompile Include="Objects\SRVManager.cpp" />
+    <ClCompile Include="Scenes\VSScenes\WarningScene.cpp" />
+    <ClCompile Include="Effects\SkillEffect.cpp" />
+    <ClCompile Include="Objects\VamSur\Monster.cpp" />
+    <ClCompile Include="Effects\BloodEffect.cpp" />
+    <ClCompile Include="Objects\MobManager.cpp" />
+    <ClCompile Include="Objects\VamSur\EquipList.cpp" />
+    <ClCompile Include="Effects\LvUpEffect.cpp" />
+    <ClCompile Include="Base\Soft\clipper.cpp" />
+    <ClCompile Include="Base\Soft\Collider.cpp" />
+    <ClCompile Include="Effects\HitEffect.cpp" />
+    <ClCompile Include="Objects\VamSur\DropItem.cpp" />
+    <ClCompile Include="Effects\ScreenEffect.cpp" />
+    <ClCompile Include="Effects\FireEffect.cpp" />
+    <ClCompile Include="Scenes\VSScenes\GameOverScene.cpp" />
+    <ClCompile Include="Objects\VamSur\Brazier.cpp" />
+    <ClCompile Include="Util\CSVReader.cpp" />
+    <ClCompile Include="Util\Convert.cpp" />
+    <ClCompile Include="Objects\Menues\ChestMenu.cpp" />
+    <ClCompile Include="Objects\Menues\DeadMenu.cpp" />
+    <ClCompile Include="Objects\Menues\LevelUpMenu.cpp" />
+    <ClCompile Include="Objects\Menues\PopUpMenu.cpp" />
+    <ClCompile Include="Objects\Interface\Button.cpp" />
+    <ClCompile Include="Objects\Interface\Cursor.cpp" />
+    <ClCompile Include="Objects\Interface\InGameUI.cpp" />
+    <ClCompile Include="Objects\Interface\ListCtrl.cpp" />
+    <ClCompile Include="Objects\Interface\SlideBox.cpp" />
+    <ClCompile Include="Objects\Interface\CheckBox.cpp" />
+    <ClCompile Include="Effects\ChestEffect.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shader\HLSL\Color.hlsl" />
+    <None Include="Shader\HLSL\Texture.hlsl" />
+    <None Include="Shader\HLSL\TextureColor.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="D2D.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+    <Image Include="small.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{d3e27a46-b3dc-46a8-894f-57b51c8013c3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="D2D.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
