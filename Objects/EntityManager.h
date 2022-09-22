@@ -45,6 +45,8 @@ public:
 	void RemoveItem(UINT index);
 	void RemoveBrzier(UINT index);
 
+	void SetAddPos(Vector2 pos) { addPos = pos; }
+
 private:
 	vector<pair<string, class Monster*>>	mobs;
 	vector<pair<string, class DropItem*>>	items;
@@ -53,5 +55,7 @@ private:
 	class Texture* background = nullptr;
 
 	bool visible = false;
+
+	Vector2 addPos = Vector2(0.0f, 0.0f);
 
 };

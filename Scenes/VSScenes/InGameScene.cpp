@@ -641,9 +641,16 @@ void InGameScene::CreateBrazier()
 {
 	static float ctime = 0.0f;
 
+	if (DOWN('B'))
+		ctime = 0.0f;
+
 	if (ctime <= 0.0f)
 	{
 		UINT index = ENTMANAGER->GetAddableBrazIndex();
+
+		if (index == ERR_ID)
+			return;
+
 		string str = "Brazier" + to_string(index);
 
 		Brazier* obj = (Brazier*)OBJMANAGER->FindObject(str);

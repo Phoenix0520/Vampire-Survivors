@@ -8,6 +8,8 @@ Whip::Whip()
 {
 	attackedID.clear();
 	attackedID.resize(MAX_MOB);
+
+	
 }
 
 Whip::~Whip()
@@ -50,16 +52,10 @@ void Whip::UpdateEffect(Matrix V, Matrix P)
 	{
 		Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster40");
 
-		if (mobs[i] == mob)
-			cout << "버그" << endl;
-
 		if (IsMonsterInRegion(mobs[i]))
 		{
 			if (!attackedID[i])
-			{
-				cout << "이미 맞은놈" << endl;
 				attackedID[i] = true;
-			}
 			else
 				continue;
 

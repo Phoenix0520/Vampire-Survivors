@@ -132,6 +132,8 @@ void SkillEffect::Reset()
 
 	coolTime = sl->GetSkillCoolTime(id);
 	coolTime -= coolTime * pl->GetCoolDown();
+
+	time = coolTime;
 }
 
 //void SkillEffect::UpdateSkillEffect1(Matrix V, Matrix P)

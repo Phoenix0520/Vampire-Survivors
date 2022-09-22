@@ -14,17 +14,25 @@ EntityManager::EntityManager()
 
 EntityManager::~EntityManager()
 {
-	for (auto objs : mobs)
-		SAFE_DELETE(objs.second);
-	for (auto objs : items)
-		SAFE_DELETE(objs.second);
-	for (auto objs : brazs)
-		SAFE_DELETE(objs.second);
+	//for (auto objs : mobs)
+	//	SAFE_DELETE(objs.second);
+	//for (auto objs : items)
+	//	SAFE_DELETE(objs.second);
+	//for (auto objs : brazs)
+	//	SAFE_DELETE(objs.second);
 }
 
 void EntityManager::Update(Matrix V, Matrix P)
 {
-	background->SetPosition(CAMPOS.x -575.0f, CAMPOS.y -355.0f);
+	static bool udt = false;
+
+	if (!udt)
+	{
+		UpdateAll();
+		udt = true;
+	}
+
+	background->SetPosition(CAMPOS.x -575.0f, CAMPOS.y -225.0f);
 	background->Update(V, P);
 }
 
@@ -47,35 +55,64 @@ void EntityManager::Render()
 
 	str = L"살아있는 몹 : " + to_wstring(amount) + L" 마리";
 
-	float y = -259.5f;
+	float y = 6.0f;
 
 	Vector2 pos = Vector2(CAMPOS.x -575.0f, CAMPOS.y + y);
-	pos.x -= str.length() * 10.0f;
+	pos.x -= str.length() * 7.5f;
 	
 	CAMERA->VCToWC(pos);
 
-	DirectWrite::RenderText(str, pos, 200, 0, 200, 20.0f);
+	DirectWrite::RenderText(str, pos, 200, 0, 200, 15.0f);
+
 
 	UINT index = GetAddableMobIndex();
 
-	str = L"다음 생성될 몹의 번호 : " + to_wstring(index);
+	str = L"다음 생성될 몹 번호 : " + to_wstring(index);
 	if (index == ERR_ID)
 		str = L"몹이 최대 용량에 도달했습니다.";
 
-	y -= 32.5f;
+	y -= 20.0f;
 
 	pos = Vector2(CAMPOS.x - 575.0f, CAMPOS.y + y);
-	pos.x -= str.length() * 10.0f;
+	pos.x -= str.length() * 7.5f;
 
 	CAMERA->VCToWC(pos);
 
-	DirectWrite::RenderText(str, pos, 200, 0, 200, 20.0f);
+	DirectWrite::RenderText(str, pos, 200, 0, 200, 15.0f);
 
-	str = L"활성화된 몹 : ";
+
+	str = L"---------활성화 된 몹 번호---------\n";
+
+	int col = 0;
 	for (UINT i = 0; i < mobs.size(); i++)
 	{
+		if (mobs[i].second->IsActive())
+		{
+			if (i < 10)
+				str += L"0" + to_wstring(i) + L" ";
+			else
+				str += to_wstring(i) + L" ";
 
+			col++;
+
+			if (col == 14)
+			{
+				str += L"\n";
+				col = 0;
+			}
+		}
 	}
+
+	y -= 20.0f;
+
+	pos = Vector2(CAMPOS.x - 575.0f, CAMPOS.y + y);
+	pos.x -= str.length() * 7.5f;
+
+	CAMERA->VCToWC(pos);
+
+	DirectWrite::RenderText(str, pos, 200, 0, 200, 15.0f);
+
+	///////////////////////////////////////////////////////////////////////
 
 	amount = 0;
 
@@ -85,16 +122,16 @@ void EntityManager::Render()
 			amount++;
 	}
 
-	y -= 32.5f;
+	y -= 120.0f;
 
 	str = L"떨어진 아이템 : " + to_wstring(amount) + L" 개";
 
 	pos = Vector2(CAMPOS.x - 575.0f, CAMPOS.y + y);
-	pos.x -= str.length() * 10.0f;
+	pos.x -= str.length() * 7.5f;
 
 	CAMERA->VCToWC(pos);
 
-	DirectWrite::RenderText(str, pos, 0, 200, 200, 20.0f);
+	DirectWrite::RenderText(str, pos, 0, 200, 200, 15.0f);
 
 	index = GetAddableItemIndex();
 
@@ -102,14 +139,47 @@ void EntityManager::Render()
 	if (index == ERR_ID)
 		str = L"아이템이 최대 용량에 도달했습니다.";
 
-	y -= 32.5f;
+	y -= 20.0f;
 
 	pos = Vector2(CAMPOS.x - 575.0f, CAMPOS.y + y);
-	pos.x -= str.length() * 10.0f;
+	pos.x -= str.length() * 7.5f;
 
 	CAMERA->VCToWC(pos);
 
-	DirectWrite::RenderText(str, pos, 0, 200, 200, 20.0f);
+	DirectWrite::RenderText(str, pos, 0, 200, 200, 15.0f);
+
+	str = L"---------활성화 된 아이템 번호---------\n";
+
+	col = 0;
+	for (UINT i = 0; i < items.size(); i++)
+	{
+		if (items[i].second->IsActive())
+		{
+			if (i < 10)
+				str += L"0" + to_wstring(i) + L" ";
+			else
+				str += to_wstring(i) + L" ";
+
+			col++;
+
+			if (col == 14)
+			{
+				str += L"\n";
+				col = 0;
+			}
+		}
+	}
+
+	y -= 20.0f;
+
+	pos = Vector2(CAMPOS.x - 575.0f, CAMPOS.y + y);
+	pos.x -= str.length() * 7.5f;
+
+	CAMERA->VCToWC(pos);
+
+	DirectWrite::RenderText(str, pos, 0, 200, 200, 15.0f);
+
+	///////////////////////////////////////////////////////////////
 
 	amount = 0;
 
@@ -121,14 +191,14 @@ void EntityManager::Render()
 
 	str = L"생성된 화로 : " + to_wstring(amount) + L" 개";
 
-	y -= 32.5f;
+	y -= 120.0f;
 
 	pos = Vector2(CAMPOS.x - 575.0f, CAMPOS.y + y);
-	pos.x -= str.length() * 10.0f;
+	pos.x -= str.length() * 7.5f;
 
 	CAMERA->VCToWC(pos);
 
-	DirectWrite::RenderText(str, pos, 200, 200, 0, 20.0f);
+	DirectWrite::RenderText(str, pos, 200, 200, 0, 15.0f);
 
 	index = GetAddableBrazIndex();
 
@@ -136,14 +206,45 @@ void EntityManager::Render()
 	if (index == ERR_ID)
 		str = L"화로가 최대 용량에 도달했습니다.";
 
-	y -= 32.5f;
+	y -= 20.0f;
 
 	pos = Vector2(CAMPOS.x - 575.0f, CAMPOS.y + y);
-	pos.x -= str.length() * 10.0f;
+	pos.x -= str.length() * 7.5f;
 
 	CAMERA->VCToWC(pos);
 
-	DirectWrite::RenderText(str, pos, 200, 200, 0, 20.0f);
+	DirectWrite::RenderText(str, pos, 200, 200, 0, 15.0f);
+
+	str = L"---------활성화 된 화로 번호---------\n";
+
+	col = 0;
+	for (UINT i = 0; i < brazs.size(); i++)
+	{
+		if (brazs[i].second->IsActive())
+		{
+			if (i < 10)
+				str += L"0" + to_wstring(i) + L" ";
+			else
+				str += to_wstring(i) + L" ";
+
+			col++;
+
+			if (col == 14)
+			{
+				str += L"\n";
+				col = 0;
+			}
+		}
+	}
+
+	y -= 20.0f;
+
+	pos = Vector2(CAMPOS.x - 575.0f, CAMPOS.y + y);
+	pos.x -= str.length() * 7.5f;
+
+	CAMERA->VCToWC(pos);
+
+	DirectWrite::RenderText(str, pos, 200, 200, 0, 15.0f);
 }
 
 void EntityManager::UpdateAll()
@@ -163,7 +264,8 @@ void EntityManager::UpdateMob()
 
 		Monster* obj = (Monster*)OBJMANAGER->FindObject(str);
 
-		if (obj->IsActive())
+		//if (obj->IsActive())
+		if (obj)
 			mobs.push_back(make_pair(str, obj));
 	}
 }
@@ -178,7 +280,7 @@ void EntityManager::UpdateItem()
 
 		DropItem* obj = (DropItem*)OBJMANAGER->FindObject(str);
 
-		if (obj->IsActive())
+		if (obj)
 			items.push_back(make_pair(str, obj));
 	}
 }
@@ -193,7 +295,7 @@ void EntityManager::UpdateBrazier()
 
 		Brazier* obj = (Brazier*)OBJMANAGER->FindObject(str);
 
-		if (obj->IsActive())
+		if (obj)
 			brazs.push_back(make_pair(str, obj));
 	}
 }
@@ -240,6 +342,8 @@ UINT EntityManager::GetAddableMobIndex()
 	{
 		Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(i));
 
+		if (!mob)
+			return ERR_ID;
 		if (!mob->IsActive())
 			return i;
 	}
@@ -253,6 +357,8 @@ UINT EntityManager::GetAddableItemIndex()
 	{
 		DropItem* item = (DropItem*)OBJMANAGER->FindObject("DropItem" + to_string(i));
 
+		if (!item)
+			return ERR_ID;
 		if (!item->IsActive())
 			return i;
 	}
@@ -266,6 +372,8 @@ UINT EntityManager::GetAddableBrazIndex()
 	{
 		Brazier* obj = (Brazier*)OBJMANAGER->FindObject("Brazier" + to_string(i));
 
+		if (!obj)
+			return ERR_ID;
 		if (!obj->IsActive())
 			return i;
 	}

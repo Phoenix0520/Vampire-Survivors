@@ -37,8 +37,9 @@ protected:
 	int id			= 0;
 	int spearCount	= 0;
 
-	int	  spear		= 0;
+	int	spear		= 0;
 
+	float time		= 0.0f;
 	float coolTime  = 0.0f;
 	float area		= 0.0f;
 	float speed		= 0.0f;
@@ -46,7 +47,7 @@ protected:
 	float damage	= 0.0f;
 	// Skill Stats
 
-	bool soundPlayed;
+	bool soundPlayed = false;
 	vector<bool> attackedID;
 	vector<UINT> ids;
 };
