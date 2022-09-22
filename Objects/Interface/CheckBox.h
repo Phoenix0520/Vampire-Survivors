@@ -13,6 +13,8 @@ public:
 	bool IsPointInRegion(Vector2 position);
 
 private:
-	int  check = 0;
+	class Texture* texture = nullptr;
 	class Cursor* cursor = nullptr;	
+
+	int  check = 0;
 };

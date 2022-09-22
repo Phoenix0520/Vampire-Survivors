@@ -50,7 +50,6 @@ public:
 	void	SetState	(UINT val)	{ state = (State)val; }
 	void	SetType		(UINT val)	{ type = (Type)val; }
 	void	SetIntersect(bool val)	{ intersect = val;}
-
 	// Setter
 
 	float	GetHp			()		{ return hp; }
@@ -62,11 +61,13 @@ public:
 	UINT	GetState		()		{ return (UINT)state; }
 	UINT	GetType			()		{ return (UINT)type; }
 	RECT	GetCollisionRect();
+	class Animation* GetAnimation() { return animation; }
 	// Getter
 
 private:
 	class Animation* animation = nullptr;
 	class HitEffect* hitEffect = nullptr;
+
 	State state = MOVE;
 	Type  type  = BAT;
 	
@@ -74,17 +75,16 @@ private:
 	float ctime = 0.0f;
 	float time = 0.0f;
 
-	float hp = 0;
-	float damage = 0.0f;
-	float exp = 0;
-	float kbDef = 0.0f;
-	float moveSpeed = 0.0f;
+	float hp			= 0;
+	float damage		= 0.0f;
+	float exp			= 0;
+	float kbDef			= 0.0f;
+	float moveSpeed		= 0.0f;
 
-	bool stop = false;
-	bool dead = false;
-	bool plus = true;
-	bool moving = true;
-	bool intersect = true;
+	bool stop		= false;
+	bool dead		= false;
+	bool plus		= true;
+	bool moving		= true;
+	bool intersect	= true;
 
-	
 };

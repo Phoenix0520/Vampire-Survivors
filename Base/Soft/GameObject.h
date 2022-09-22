@@ -1,4 +1,5 @@
 #pragma once
+
 class GameObject	// 추상클래스
 {
 public:	// 생성자, 소멸자
@@ -31,7 +32,6 @@ public:	// 전역 함수
 	// Setter
 
 	Vector2 GetPosition()						{ return position; }
-	Vector2 GetRealSize()						{ return texture->GetTextureRealSize(); }
 	Vector2 GetScale()							{ return scale; }
 	Vector3 GetRotation()						{ return rotation; }
 	bool	IsActive()							{ return active; }
@@ -39,7 +39,6 @@ public:	// 전역 함수
 	// Getter
 
 protected:
-	class Texture* texture = nullptr;
 	class Collider* collider = nullptr;
 
 	Vector2 scale			= Vector2(1.0f, 1.0f);

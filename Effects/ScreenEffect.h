@@ -42,6 +42,8 @@ private:
 	class Texture* background = nullptr; // 화면 전체에 영향을 주는 텍스쳐
 	class Texture* texture = nullptr; // 추가 효과를 담는 텍스쳐
 
+	class Player* pl = nullptr;
+
 	float ftime = 10.0f;
 	float time = 0.0f; // 효과를 주기위한 시간
 	float alpha = 0.0f; // 효과에 사용되는 알파값

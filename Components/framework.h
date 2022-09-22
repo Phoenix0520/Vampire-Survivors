@@ -1,5 +1,8 @@
 #pragma once
 
+#define _CRT_SECURE_NO_WARNINGS
+#pragma warning (disable : 4996)
+
 // Console Define
 #ifdef _DEBUG	// 콘솔을 연결해주는 _DEBUG
 #pragma comment(linker, "/entry:wWinMainCRTStartup /subsystem:console")
@@ -47,9 +50,6 @@ using namespace std;
 #define SAFE_DELETE_ARRAY(p) {if(p) { delete[](p); p = nullptr; }}
 #define SAFE_RELEASE(p) {if(p) { (p)->Release(); (p) = nullptr;}}
 
-#define _CRT_SECURE_NO_WARNINGS
-#pragma warning (disable : 4996)
-
 _NODISCARD inline wstring f_to_wstring(float _Val)
 {	// convert float to wstring
 	return (_Floating_to_wstring(L"%.0f", _Val));
@@ -59,13 +59,6 @@ _NODISCARD inline wstring to_wstring(float _Val, const wchar_t* format)
 {	// convert float to wstring
 	return (_Floating_to_wstring(format, _Val));
 }
-
-//#define GENERATOR(i,j)								\
-//{													\
-//	mt19937 engine((unsigned int)GetTickCount())	\
-//	uniform_int_distribution<> distribution(i, j)	\
-//	auto generator = bind(distribution, engine)		\
-//}
 
 // DirectX 환경
 
@@ -139,7 +132,7 @@ typedef D3DXMATRIX	Matrix;
 #include "SceneManager.h"
 #include "ObjectManager.h"
 #include "SRVManager.h"
-#include "MobManager.h"
+#include "EntityManager.h"
 #include "GameObject.h"
 #include "UIObject.h"
 #include "Collider.h"
@@ -161,7 +154,7 @@ typedef D3DXMATRIX	Matrix;
 #define DELTA					TIMEMANAGER->Delta()
 #define OBJMANAGER				ObjectManager::GetInstance()
 #define SRVMANAGER				SRVManager::GetInstance()
-#define MOBMANAGER				MobManager::GetInstance()
+#define ENTMANAGER				EntityManager::GetInstance()
 
 #define	CAMERA					Camera::GetInstance()
 
@@ -190,7 +183,7 @@ typedef D3DXMATRIX	Matrix;
 #define ISPLAYING(str)					audio->Playing(str)
 
 
-// Skill & Item Defin
+// Skill & Item Define
 
 #define S_WHIP		0
 #define S_MAGIC		1
@@ -215,6 +208,7 @@ typedef D3DXMATRIX	Matrix;
 #define I_CROWN		19
 
 // Key Define
+#define ERR_ID		777
 
 // extern
 extern ID3D11Device*			Device;

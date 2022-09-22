@@ -18,6 +18,7 @@ public:
 	void LevelUpMenuRender();
 
 	void CreateBrazier();
+	void CreateMonster();
 
 	void OnButtonClicked(int buttonID);
 	void ShowGUI();
@@ -38,12 +39,12 @@ private:
 	class CheckBox* checkBox[3];
 
 	class Player* player = nullptr;
-	class Monster* mob[50];
+	class Monster* mob[300];
 	class LvUpMenu* lvUpMenu = nullptr;
 	class InGameUI* UI = nullptr;
 
-	class DropItem* item[50];
-	class Brazier* brazier[50];
+	class DropItem* item[100];
+	class Brazier* brazier[100];
 
 	class ChestMenu* chestMenu = nullptr;
 	class DeadMenu* deadMenu = nullptr;
@@ -51,8 +52,9 @@ private:
 	// System
 
 	float ctime = 0.0f;
+	float rtime = 0.0f;
 	float time = 0.0f;
-	float mtime[50];
+	float mtime[100];
 
 	float val[12];
 

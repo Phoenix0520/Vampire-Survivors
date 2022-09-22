@@ -1,7 +1,5 @@
 #pragma once
 
-class GameObject;
-
 class ObjectManager	// 추상클래스
 {
 private:	// 생성자, 소멸자
@@ -23,16 +21,16 @@ public:	// 순수 가상함수
 	void		UpdateAll(Matrix V, Matrix P);
 	void		RenderAll();
 
-	void		AddObject(string name, GameObject* obj);
+	void		AddObject(string name, class GameObject* obj);
 	void		AddObjectStrings(string name)				{ objectStrings.push_back(name); }
 	void		ClearObjectStrings()						{ objectStrings.clear(); }
 
 	void SetPosition(string name, Vector2 pos);
 	void SetPosition(string name, float x, float y);
 
-	GameObject* FindObject(string name);
+	class GameObject* FindObject(string name);
 
 private:
-	map<string, GameObject*> objects;
+	map<string, class GameObject*> objects;
 	vector<string> objectStrings;
 };

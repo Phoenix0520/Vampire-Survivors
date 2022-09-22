@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Button.h"
 #include "ChestEffect.h"
+#include "LevelUpMenu.h"
 
 ChestMenu::ChestMenu()
 {
@@ -65,6 +66,11 @@ ChestMenu::ChestMenu()
 		effect = new ChestEffect();
 	}
 
+	// Level Up Menu
+	{
+		lvUpMenu = new LvUpMenu();
+	}
+
 	SetActive(false);
 }
 
@@ -79,43 +85,33 @@ void ChestMenu::Update(Matrix V, Matrix P)
 	if (!IsActive())
 		return;
 
-	if (DOWN(VK_ESCAPE))
-	{
-		effect->SetActive(false);
-		SetActive(false);
-	}
-
-	if (button->IsClick())
+	if (button->IsClick()) // First Click : Open
 	{
 		open = true;
+		button->SetClick(false);
 	}
 
 	background->SetPosition(CAMPOS);
-	background->Update(V, P);
-
 	button->SetPosition(CAMPOS.x, CAMPOS.y - 292.0f);
-	button->Update(V, P);
-
 	chest->SetPosition(CAMPOS.x - 14.0f, CAMPOS.y - 139.0f);
 
-	if (open)
+	if (open) // Open
 	{
-		if (!soundPlaying)
+		if (!soundPlaying) // If not Sound Played
 		{
 			switch (rarity)
 			{
 			case ChestMenu::NORMAL:
 				PLAYSOUND("Chest1", bgmSize);
-				effect->Reset();
-				effect->SetRarity(NORMAL);
+				effect->SetActive(true);
 				break;
 			case ChestMenu::RARE:
 				PLAYSOUND("Chest2", bgmSize);
-				effect->SetRarity(RARE);
+				effect->SetActive(true);
 				break;
 			case ChestMenu::EPIC:
 				PLAYSOUND("Chest3", bgmSize);
-				effect->SetRarity(EPIC);
+				effect->SetActive(true);
 				break;
 			default:
 				break;
@@ -125,12 +121,14 @@ void ChestMenu::Update(Matrix V, Matrix P)
 		}
 
 		chest->SetPlay(1);
-		
 		chest->SetPosition(CAMPOS.x + 10.0f, CAMPOS.y - 139.0f);
 
+		effect->SetActive(true);
 		effect->Update(V, P);
 	}
 
+	background->Update(V, P);
+	button->Update(V, P);
 	chest->Update(V, P);
 }
 
@@ -140,7 +138,29 @@ void ChestMenu::Render()
 		return;
 
 	background->Render();
-	button->Render();
+
+	float time = effect->GetTime();
+
+	if (effect->IsSkip() || time <= -6.0f) // 완전히 끝난다면
+	{
+		if (button->IsClick()) // 버튼을 누른다면
+		{
+			SetActive(false);
+			effect->SetActive(false);
+		}
+
+		button->SetButtonString(L"완료");
+		button->Render();
+	}
+	else if (open) // 완전히 끝나지 않았다면
+		button->SetClick(false);
+
+	if (time == 8.0f) // 최초 실행시
+	{
+		button->SetButtonString(L"열기");
+		button->Render();
+	}
+
 	chest->Render();
 	effect->Render();
 
@@ -151,12 +171,13 @@ void ChestMenu::Render()
 	pos += CAMPOS;
 	CAMERA->VCToWC(pos);
 
-	DirectWrite::RenderText(str, pos, 255, 255, 255, 45.0f);
+	if (!open)
+		DirectWrite::RenderText(str, pos, 255, 255, 255, 45.0f);
 }
 
 void ChestMenu::Reset()
 {
-	mt19937 engine((UINT)GetTickCount());
+	mt19937	engine((unsigned int)std::time(NULL));
 	uniform_int_distribution<> distribution(0, 100);
 	auto generator = bind(distribution, engine);
 	
@@ -168,24 +189,24 @@ void ChestMenu::Reset()
 
 	cout << "\n============= [상자 확률] =============" << endl;
 	cout << "EPIC : " << 5 + luck << "%" << endl;
-	cout << "RARE : " << 15 + luck << "%" << endl;
+	cout << "RARE : " << 10 + luck << "%" << endl;
 	cout << "NORMAL : " << 80 - luck * 2 << "%" << endl;
 
 	cout << endl;
 
 	if (value >= 95 - luck)
 	{
-		cout << "Rarity : EPIC";
+		cout << "Value " << value << " 가 나와 Rarity : EPIC";
 		rarity = EPIC;
 	}
 	else if (value >= 85 - luck)
 	{
-		cout << "Rarity : RARE";
+		cout << "Value " << value << " 가 나와 Rarity : RARE";
 		rarity = RARE;
 	}
 	else
 	{
-		cout << "Rarity : NORMAL";
+		cout << "Value " << value << " 가 나와 Rarity : NORMAL";
 		rarity = NORMAL;
 	}
 
@@ -193,6 +214,7 @@ void ChestMenu::Reset()
 
 	PLAYSOUND("FoundChest", sfxSize);
 
+	effect->Reset();
 	SetActive(true);
 	chest->SetPlay(0);
 	time = 10.0f;

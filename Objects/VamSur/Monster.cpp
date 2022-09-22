@@ -6,13 +6,13 @@
 
 Monster::Monster()
 {
-	wstring imageFile1 = L"./Images/Monsters/Bat/BatIDLE.png";
-	wstring imageFile2 = L"./Images/Monsters/Bat/BatDead.png";
+	wstring imageFile1 = L"./Images/Monsters/BatIDLE.png";
+	wstring imageFile2 = L"./Images/Monsters/BatDead.png";
 	wstring shaderFile = L"./Shader/HLSL/TextureColor.hlsl";
+
 
 	animation = new Animation(imageFile1, shaderFile);
 	SetScale(2.5f, 2.5f);
-	animation->SetScale(scale);
 
 	// Move ( IDLE )
 	{
@@ -28,7 +28,7 @@ Monster::Monster()
 	{
 		AnimationClip* clip = new AnimationClip(AnimationClip::end);
 		animation->AddClip(clip);
-		
+
 		clip->AddFrame(animation->GetTexture(), imageFile2, 0.0f, 0.0f, 22.0f, 21.0f, 0.04f);
 		clip->AddFrame(animation->GetTexture(), imageFile2, 23.0f, 0.0f, 46.0f, 21.0f, 0.04f);
 		clip->AddFrame(animation->GetTexture(), imageFile2, 47.0f, 0.0f, 70.0f, 21.0f, 0.04f);
@@ -50,6 +50,7 @@ Monster::Monster()
 	hitEffect = (HitEffect*)OBJMANAGER->FindObject("HitEffect");
 
 	collider = new Collider();
+
 	SetActive(false);
 }
 
@@ -66,64 +67,62 @@ void Monster::Update(Matrix V, Matrix P)
 	if (type == NONE)
 	{
 		SetActive(false);
-		cout << "\'None\' 은 생성되지 않습니다." << endl;
 		return;
 	}
-
+	
 	if (dead)
 	{
-		cout << "몬스터가 사망했습니다." << endl;
 		SetActive(false);
+
 		Player* pl = (Player*)OBJMANAGER->FindObject("Player");
 		pl->SetKill(pl->GetKill() + 1);
-		
-		for (int i = 0; i < MAX_ITEM; i++)
-		{
-			DropItem* item = (DropItem*)OBJMANAGER->FindObject("DropItem" + to_string(i));
 
-			if (!item->IsActive())
-			{
-				cout << "몬스터가 경험치 보석을 드롭했습니다." << endl;
-				item->Reset();
-				item->SetType(DropItem::EXP);
-				item->SetPosition(this->GetPosition());
-				return;
-			}
-		}
-		cout << "아이템 최대 수용 가능량이 가득차 더이상 소환되지 않습니다." << endl;
+		ENTMANAGER->UpdateItem();
+
+		UINT index = ENTMANAGER->GetAddableItemIndex();
+		
+		if (index == ERR_ID)
+			return;
+
+		DropItem* item = (DropItem*)OBJMANAGER->FindObject("DropItem" + to_string(index));
+
+		item->SetPosition(this->GetPosition());
+		item->SetType(DropItem::EXP);
+		item->Reset();
+
 		return;
 	}
-
+	
 	switch (state)
 	{
 	case DEAD:
 	{
-		animation->SetPlay(type + 1);
+		animation->SetPlay(1);
 		Vector2 pos = GetPosition();
 		
 		if (rotation.y == 0.0f)
 			pos.x += DELTA * 150.0f;
 		else
 			pos.x -= DELTA * 150.0f;
-
+	
 		if (ctime < 0.1f)
 			ctime += DELTA;
 		else
 			ctime = 0.1f;
-
+	
 		Color color = Color(1.0f, 1.0f, 1.0f, 1.0f);
 		animation->UpdateColorBuffer(color, 4, 0.0f, 0.0f, 0.0f);
-
+	
 		if (ctime >= 0.1f)
 			animation->UpdateColorBuffer(Color(), 0, 0, 0, 0);
-
+	
 		SetPosition(pos);
-
+	
 		animation->SetPosition(position);
 		animation->SetRotation(-rotation);
 		animation->SetScale(scale);
 		animation->Update(V, P);
-
+	
 		if (!animation->IsPlay())
 		{
 			animation->SetStop();
@@ -139,43 +138,43 @@ void Monster::Update(Matrix V, Matrix P)
 	}
 	case MOVE:
 	{
-		animation->SetPlay(type);
+		animation->SetPlay(0);
 		Player* pl = (Player*)OBJMANAGER->FindObject("Player");
-
+	
 		if (time < 5.0f)
 			time += DELTA * 10.0f;
 		else
 			time = -5.0f;
-
+	
 		Vector2 pos1 = pl->GetPosition();
 		Vector2 pos2 = GetPosition();
-
+	
 		float x = (pos1.x - pos2.x);
 		float y = (pos1.y - pos2.y);
 		float val = sqrtf(x * x + y * y);
-
+	
 		float angle = atan2((pos1.y - pos2.y), (pos1.x - pos2.x));
-
+	
 		if (x < 0.0f)
 			SetRotation(0.0f, 0.0f, time);
 		else
 			SetRotation(0.0f, 180.0f, time);
-
+	
 		if (moving)
 		{
 			pos2.x += cosf(angle) * DELTA * moveSpeed;
 			pos2.y += sinf(angle) * DELTA * moveSpeed;
 		}
-
+	
 		SetPosition(pos2);
-
+	
 		static float ctime = 0.0f;
-
+	
 		if (ctime <= 0.0f && hitEffect->IsActive())
 		{
 			ctime = 0.125f;
 		}
-
+	
 		if (ctime > 0.0f)
 		{
 			ctime -= DELTA;
@@ -184,28 +183,28 @@ void Monster::Update(Matrix V, Matrix P)
 		}
 		else
 			animation->UpdateColorBuffer(Color(), 0, 0, 0, 0);
-
-
+	
+	
 		animation->SetPosition(position);
 		animation->SetRotation(rotation);
 		animation->SetScale(scale);
 		animation->UpdateColorBuffer(Color(), 0, 0, 0, 0);
 		animation->Update(V, P);
-
+	
 		collider->SetPosition(animation->GetPosition());
 		collider->SetRotation(animation->GetRotation());
 		collider->SetScale(animation->GetTextureRealSize());
-
+	
 		collider->Update(V, P);
-
+	
 		break;
 	}
 	case FROZEN:
 	{
 		Player* pl = PLAYER;
-
+	
 		ftime += DELTA;
-
+	
 		if (ftime >= pl->GetScreenEffect()->GetFrozenTime())
 			state = MOVE;
 			
@@ -216,7 +215,7 @@ void Monster::Update(Matrix V, Matrix P)
 		animation->Update(V, P);
 	}
 	}
-
+	
 	hitEffect->SetPosition(position);
 	hitEffect->SetScale(scale);
 	hitEffect->Update(V, P); 
@@ -226,7 +225,7 @@ void Monster::Attacked(int id)
 {
 	EquipList* sl = (EquipList*)OBJMANAGER->FindObject("EquipList");
 	Player* pl = PLAYER;
-
+	
 	float damage;
 	
 	switch (id)
@@ -242,34 +241,34 @@ void Monster::Attacked(int id)
 		pl->AddTotalDamage(id, damage);
 		break;
 	}
-
+	
 	hp -= damage;
-
+	
 	cout << damage << endl;
-
+	
 	if (hp <= 0.0f)
 		state = DEAD;
-
+	
 	hitEffect->Reset();
 }
 
 RECT Monster::GetCollisionRect()
 {
 	RECT rect;
-
+	
 	if (state == DEAD || !intersect)
 	{
 		return { 100000000, 100000000, 100000000, 100000000 };
 	}
-
+	
 	Vector2 pPos = GetPosition();
 	Vector2 size = animation->GetTextureRealSize();
-
+	
 	rect.left = (LONG)(pPos.x - size.x / 2.5f);
 	rect.right = (LONG)(pPos.x + size.x / 2.5f);
 	rect.top = (LONG)(pPos.y + size.y / 2.5f);
 	rect.bottom = (LONG)(pPos.y - size.y / 2.5f);
-
+	
 	return rect;
 }
 
@@ -289,7 +288,10 @@ void Monster::Reset()
 	hitEffect = (HitEffect*)OBJMANAGER->FindObject("HitEffect");
 
 	if (!hitEffect->IsActive())
+	{
 		hitEffect->Reset();
+		hitEffect->SetActive(false);
+	}
 
 	state = MOVE;
 	//type = NONE;

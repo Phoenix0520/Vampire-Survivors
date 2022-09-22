@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAX_ITEM 15
+#define MAX_ITEM 50
 
 class DropItem : public GameObject
 {

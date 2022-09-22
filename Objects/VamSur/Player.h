@@ -40,6 +40,8 @@ public:
 	float	SetGUI(int id);
 	RECT	GetCollisionRect();
 	bool	IsMonsterInRegion(class Monster* mob);
+	vector<UINT> GetMobsInScreen() { return mobsInScreen; }
+	void SetMobsInScreen();
 	class ScreenEffect* GetScreenEffect() { return screenEffect; }
 	
 
@@ -175,4 +177,6 @@ private:
 
 	int finalMin = 0;
 	int finalSec = 0;
+
+	vector<UINT> mobsInScreen;
 };

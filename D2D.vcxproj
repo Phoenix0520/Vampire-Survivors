@@ -26,6 +26,7 @@
     <ClInclude Include="Base\Soft\clipper.hpp" />
     <ClInclude Include="Base\Soft\Collider.h" />
     <ClInclude Include="Effects\ChestEffect.h" />
+    <ClInclude Include="Effects\Skill\Whip.h" />
     <ClInclude Include="Objects\Menues\ChestMenu.h" />
     <ClInclude Include="Util\Convert.h" />
     <ClInclude Include="Base\Soft\GameObject.h" />
@@ -43,14 +44,14 @@
     <ClInclude Include="Effects\HitEffect.h" />
     <ClInclude Include="Effects\BloodEffect.h" />
     <ClInclude Include="Effects\LvUpEffect.h" />
-    <ClInclude Include="Effects\SkillEffect.h" />
+    <ClInclude Include="Effects\Skill\SkillEffect.h" />
     <ClInclude Include="Libraries\imconfig.h" />
     <ClInclude Include="Libraries\imgui.h" />
     <ClInclude Include="Libraries\imguiDx11.h" />
     <ClInclude Include="Libraries\imgui_impl_dx11.h" />
     <ClInclude Include="Libraries\imgui_impl_win32.h" />
     <ClInclude Include="Objects\Basic\Line.h" />
-    <ClInclude Include="Objects\MobManager.h" />
+    <ClInclude Include="Objects\EntityManager.h" />
     <ClInclude Include="Objects\ObjectManager.h" />
     <ClInclude Include="Objects\Basic\Rect.h" />
     <ClInclude Include="Objects\Basic\Texture.h" />
@@ -94,7 +95,12 @@
     <ClCompile Include="Base\Hard\Mouse.cpp" />
     <ClCompile Include="Base\Soft\clipper.cpp" />
     <ClCompile Include="Base\Soft\Collider.cpp" />
+    <ClCompile Include="Components\framework.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">framework.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="Effects\ChestEffect.cpp" />
+    <ClCompile Include="Effects\Skill\Whip.cpp" />
     <ClCompile Include="Objects\Menues\ChestMenu.cpp" />
     <ClCompile Include="Util\Convert.cpp" />
     <ClCompile Include="Effects\FireEffect.cpp" />
@@ -102,9 +108,9 @@
     <ClCompile Include="Effects\HitEffect.cpp" />
     <ClCompile Include="Effects\BloodEffect.cpp" />
     <ClCompile Include="Effects\LvUpEffect.cpp" />
-    <ClCompile Include="Effects\SkillEffect.cpp" />
+    <ClCompile Include="Effects\Skill\SkillEffect.cpp" />
     <ClCompile Include="Objects\Basic\Line.cpp" />
-    <ClCompile Include="Objects\MobManager.cpp" />
+    <ClCompile Include="Objects\EntityManager.cpp" />
     <ClCompile Include="Objects\ObjectManager.cpp" />
     <ClCompile Include="Objects\Basic\Rect.cpp" />
     <ClCompile Include="Objects\Basic\Texture.cpp" />
@@ -234,14 +240,15 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>./;../;./Components;./Objects;./Objects/Basic;./Objects/VamSur;./Objects/Menues;./Objects/Interface;./Resource;./Scenes;./Scenes/VSScenes;./Scenes/Lesson;./Shader;./Systems;./Base;./Base/Hard;./Base/Soft;./Effects;./Render;./Render/Animation;./Render/Graphic;./Libraries;./Util;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>./;../;./Components;./Objects;./Objects/Basic;./Objects/VamSur;./Objects/Menues;./Objects/Interface;./Resource;./Scenes;./Scenes/VSScenes;./Scenes/Lesson;./Shader;./Systems;./Base;./Base/Hard;./Base/Soft;./Effects;./Effects/Skill;./Render;./Render/Animation;./Render/Graphic;./Libraries;./Util;</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PrecompiledHeaderFile>framework.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

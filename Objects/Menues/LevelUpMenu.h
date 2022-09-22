@@ -17,6 +17,12 @@ public:
 	bool IsSelect() { return select; }
 	void SetSelect(bool val) { select = val; }
 
+	void Upgrade(int type);
+
+	vector<wstring> GetExplains() { return explains; }
+	vector<string> GetAddType() { return addType; }
+	vector<float> GetAddValue() { return addValue; }
+
 private:
 	void ReadTextFile(int row, Vector2& offset, Vector2& offsetSize);
 	void IncreasingItemValue(int id, int level);

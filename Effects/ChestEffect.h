@@ -7,28 +7,45 @@ public:
 	~ChestEffect();
 
 public:
-	enum Rarity
-	{
-		NORMAL = 1,
-		RARE = 3,
-		EPIC = 5
-	};
-
-public:
 	void Update(Matrix V, Matrix P) override;
 	void Render() override;
 	void Reset() override;
 
-	void Init();
+	float GetTime() { return time; }
+	bool IsSkip() { return skip; }
 
-	void SetRarity(UINT val) { rarity = (Rarity)val; }
-	void SetRarity(Rarity val) { rarity = val; }
+	float GetGold() { return gold; }
+
+	void ReadTextFile(int row, Vector2& offset, Vector2& offsetSize);
+
+	void GoldRender();
+	void ItemRoullet();
+	void Explain();
+	void ConfirmItem();
 
 private:
-	class Texture* texture[5];
+	class Texture* texture	= nullptr;
+	class Texture* item		= nullptr;
+	class Texture* itemBG	= nullptr;
+	class Texture* itemBox	= nullptr;
+	class Texture* explain	= nullptr;
+	class Texture* vfx		= nullptr;
 
-	Rarity	rarity = NORMAL;
+	class LvUpMenu* lvUpMenu = nullptr;
 
+	Vector2 pos;
+
+	UINT	icon[7] = { 0, 1, 2, 3, 4, 5, 6 };
+	UINT	type = 0;
+
+	bool	skip = false;
+	bool	confirm = false;
+
+	float	scale = 0.0f;
+	float	gold = 0.0f;
+	float	value = 0.0f;
+	float	ftime = 0.0f;
 	float	time = 0.0f;
+	float	rtime = 0.0f;
 	
 };

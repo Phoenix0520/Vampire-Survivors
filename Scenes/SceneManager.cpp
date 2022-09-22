@@ -3,6 +3,7 @@
 #include "SceneList.h"
 #include "ObjectList.h"
 #include "HitEffect.h"
+#include "Whip.h"
 
 ////////////////////////////////////////////////////////
 // 생성자, 소멸자
@@ -67,9 +68,17 @@ void SceneManager::CreateObject()
 		start = GetTickCount();
 		for (int i = 0; i < 8; i++)
 		{
-			SkillEffect* se = new SkillEffect();
-			se->SetID(i);
-			OBJMANAGER->AddObject("SkillEffect" + to_string(i), se);
+			if (i == 0)
+			{
+				Whip* we = new Whip();
+				OBJMANAGER->AddObject("SkillEffect0", we);
+			}
+			else
+			{
+				SkillEffect* se = new SkillEffect();
+				se->SetID(i);
+				OBJMANAGER->AddObject("SkillEffect" + to_string(i), se);
+			}
 		}
 		end = GetTickCount();
 		cout << "SkillEffect : " << (float)(end - start) / 1000 << " sec" << endl;
@@ -92,7 +101,7 @@ void SceneManager::CreateObject()
 		Cursor* cursor = new Cursor();
 		OBJMANAGER->AddObject("Cursor", cursor);
 		Cursor* chestCursor = new Cursor();
-		OBJMANAGER->AddObject("ChestCursor", chestCursor);
+		OBJMANAGER->AddObject("Cursor2", chestCursor);
 		end = GetTickCount();
 		cout << "Cursor : " << (float)(end - start) / 1000 << " sec" << endl;
 		
@@ -405,16 +414,6 @@ void SceneManager::RenderChapterDisplay()
 			CAMERA->VCToWC(pos);
 
 			//DirectWrite::RenderText(str, pos, 255, 255, 255, 20.0f);
-		}
-
-		// 흐른 시간
-		{
-			wstring wstr = to_wstring(TIMEMANAGER->GetRunning()) + L" sec";
-			RECT rect = { 5, 5, 505, 505 };
-			rect.top += 925;
-			rect.bottom += 925;
-
-			DirectWrite::RenderText(wstr, rect);
 		}
 	}
 	ENDDRAW;

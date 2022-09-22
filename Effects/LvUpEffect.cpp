@@ -84,7 +84,6 @@ void LvUpEffect::Reset()
 	Random();
 	//cout << "Reset!" << endl;
 	//
-	//mt19937 engine((unsigned int)GetTickCount());
 	//
 	//uniform_int_distribution<> distribution(0, 360);
 	//auto generator = bind(distribution, engine);
@@ -105,8 +104,7 @@ void LvUpEffect::Reset()
 
 void LvUpEffect::Random()
 {
-	mt19937 engine((unsigned int)GetTickCount());
-
+	mt19937	engine((unsigned int)std::time(NULL));
 	uniform_int_distribution<> distribution1(-(int)(WINHEIGHT / 2), (int)(WINHEIGHT / 2));
 	auto generator2 = bind(distribution1, engine);
 

@@ -5,6 +5,7 @@
 #include "ScreenEffect.h"
 #include "FireEffect.h"
 #include "ChestMenu.h"
+#include "Whip.h"
 
 #define LvLock	false
 
@@ -33,7 +34,6 @@ Player::Player()
 
 	hpBar[0] = new Texture(imageFile2, shaderFile);
 	hpBar[1] = new Texture(imageFile3, shaderFile);
-
 	
 	bloodEffect[1] = new BloodEffect();
 	screenEffect = new ScreenEffect();
@@ -63,6 +63,8 @@ void Player::Update(Matrix V, Matrix P)
 	{
 		return;
 	}
+
+	SetMobsInScreen();
 
 	skills = (EquipList*)OBJMANAGER->FindObject("EquipList");
 
@@ -121,29 +123,29 @@ void Player::Update(Matrix V, Matrix P)
 		}
 
 		// UnderAttack
-		for (int i = 0; i < MAX_MOB; i++)
-		{
-			Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(i));
-
-			if (!mob->IsActive())
-				continue;
-
-			if (IsMonsterInRegion(mob))
-			{
-				if (!mob->GetIntersect())
-					continue;
-
-				if (mob->GetDamage() - def > 0.0f)
-				{
-					cout << i << " 번째 몹에게 공격받고 있습니다." << endl;
-					hp -= (1.0f / 60.0f) * (mob->GetDamage() - def);
-				}
-
-				ctime = 0.0f;
-				
-				state = ATTACKED;
-			}
-		}
+		//for (UINT i = 0; i < mobsInScreen.size(); i++)
+		//{
+		//	Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(mobsInScreen[i]));
+		//
+		//	if (!mob->IsActive())
+		//		continue;
+		//
+		//	if (IsMonsterInRegion(mob))
+		//	{
+		//		if (!mob->GetIntersect())
+		//			continue;
+		//
+		//		if (mob->GetDamage() - def > 0.0f)
+		//		{
+		//			cout << mobsInScreen[i]  << " 번째 몹에게 공격받고 있습니다." << endl;
+		//			hp -= (1.0f / 60.0f) * (mob->GetDamage() - def);
+		//		}
+		//
+		//		ctime = 0.0f;
+		//		
+		//		state = ATTACKED;
+		//	}
+		//}
 
 		if (state == ATTACKED)
 		{
@@ -247,12 +249,15 @@ void Player::Update(Matrix V, Matrix P)
 		{
 			if (!skills->GetSkillEquip(i))
 				continue;
+			if (i != 0)
+				break;
 
-			SkillEffect* se = skills->GetSkillEffect(i);
+			Whip* se = (Whip*)skills->GetSkillEffect(i);
 
 			se->SetRotation(GetRotation());
 			se->SetPosition(GetPosition());
 			se->Update(VM, PM);
+			se->UpdateEffect(VM, PM);
 		}
 	}
 
@@ -276,11 +281,11 @@ void Player::Render()
 	if (!IsActive())
 		return;
 
-	if (skills->GetSkillEquip(7))
-	{
-		SkillEffect* se8 = skills->GetSkillEffect(7);
-		se8->Render();
-	}
+	//if (skills->GetSkillEquip(7))
+	//{
+	//	SkillEffect* se8 = skills->GetSkillEffect(7);
+	//	se8->Render();
+	//}
 
 	animation->Render();
 
@@ -289,9 +294,13 @@ void Player::Render()
 		if (!skills->GetSkillEquip(i))
 			continue;
 
-		SkillEffect* se = skills->GetSkillEffect(i);
+		if (i != 0)
+			break;
+
+		Whip* se = (Whip*)skills->GetSkillEffect(i);
 
 		se->Render();
+		se->RenderEffect();
 	}
 
 
@@ -357,17 +366,17 @@ void Player::Render()
 void Player::EquipBasic()
 {
 	// 기본 무기 : 채찍
-	ListCtrl* lc = (ListCtrl*)OBJMANAGER->FindObject("ListCtrl");
-	skills = (EquipList*)OBJMANAGER->FindObject("EquipList");
-	int no = 0;
+	//ListCtrl* lc = (ListCtrl*)OBJMANAGER->FindObject("ListCtrl");
+	//skills = (EquipList*)OBJMANAGER->FindObject("EquipList");
+	//int no = 0;
 
-	if (!skills->GetSkillEquip(S_WHIP))
-		skills->UpdateSkillLevel(S_WHIP, 1);
-	skills->UpdateSkillEquip(S_WHIP, true);
-	equipedSkillList[no] = S_WHIP;
-
-	lc->UpdateItemCollect(S_WHIP * 2, true);
-	no++;
+	//if (!skills->GetSkillEquip(S_WHIP))
+	//	skills->UpdateSkillLevel(S_WHIP, 1);
+	//skills->UpdateSkillEquip(S_WHIP, true);
+	//equipedSkillList[no] = S_WHIP;
+	//
+	//lc->UpdateItemCollect(S_WHIP * 2, true);
+	//no++;
 
 	///////////////////////////////////////////////////////////////
 
@@ -617,6 +626,29 @@ bool Player::IsMonsterInRegion(Monster* mob)
 		return true;
 
 	return false;
+}
+
+void Player::SetMobsInScreen()
+{
+	mobsInScreen.clear();
+	mobsInScreen.shrink_to_fit();
+
+	for (UINT i = 0; i < MAX_MOB; i++)
+	{
+		Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(i));
+
+		Vector2 pos = mob->GetPosition();
+
+		Vector2 pPos = CAMERA->GetPosition();
+		float w = (float)MAIN->GetWidth() / 2;
+		float h = (float)MAIN->GetHeight() / 2;
+
+		if (pos.x >= pPos.x - w && pos.x <= pPos.x + w && pos.y <= pPos.y + h && pos.y >= pPos.y - h)
+		{
+			if (mob->IsActive())
+				mobsInScreen.push_back(i);
+		}
+	}
 }
 
 void Player::AddExp(float val)

@@ -74,6 +74,8 @@ DropItem::DropItem()
 
 	collider = new Collider();
 	playerCenterDot = new Collider();
+
+	arrow = (Cursor*)OBJMANAGER->FindObject("Cursor2");
 }
 
 DropItem::~DropItem()
@@ -136,8 +138,6 @@ void DropItem::Update(Matrix V, Matrix P)
 		texture->Update(V, P);
 		break;
 	case DropItem::Chest:
-		if (arrow == nullptr)
-			arrow = (Cursor*)OBJMANAGER->FindObject("ChestCursor");
 		arrow->SetType(3);
 		arrow->SetPosition(GetPosition());
 		arrow->Update(V, P);

@@ -35,15 +35,18 @@ void FireEffect::Update(Matrix V, Matrix P)
 	for (int i = 0; i < 25; i++)
 		pos[i] = pPos;
 
-	float interval[5] = { 12.5f, -3.7f, 9.2f, -17.0f, 4.9f };
+	float interval[5] = { 13.5f, -5.7f, 9.2f, -18.0f, 4.9f };
 
-	time += DELTA;
+	time -= DELTA;
 
-	if (time >= 10.0f * (1 + pl->GetDuration()))
+	if (time < 0.0f)
+	{
+		cout << "Fire Effect ²¨Áü" << endl;
 		SetActive(false);
+	}
 
 	if (timer >= 0.0f)
-		timer -= DELTA * 0.1f;
+		timer -= DELTA * 30.0f;
 	else
 	{
 		for (int i = 0; i < 25; i++)
@@ -73,15 +76,16 @@ void FireEffect::Update(Matrix V, Matrix P)
 
 	rotation.y = pl->GetRotation().y;
 
-	mt19937 engine((UINT)GetTickCount());
+	mt19937	engine((unsigned int)std::time(NULL));
 	uniform_int_distribution<> distribution(0, 4);
 	auto generator = bind(distribution, engine);
 
 	for (int i = 0; i < 25; i++)
 	{
 		float scale = i / 7.5f;
-		if (timer < 0.25f)
-			scale = (timer + 0.75f) * i / 7.5f;
+
+		if (time < 0.5f)
+			scale = time * i / 3.25f;
 
 		float angle = rotation.z - 90.0f;
 		float mSpeed = 1250.0f * DELTA;
@@ -95,12 +99,22 @@ void FireEffect::Update(Matrix V, Matrix P)
 		texture[i]->SetPosition(pos[i]);
 
 		texture[i]->SetScale(scale, scale);
-
 		
-		texture[i]->UpdateColorBuffer(Color(0.85f, 0.1f, 0.1f, timer + 0.25f), 4, 0.0f, 0.0f, 0.0f);
+		texture[i]->UpdateColorBuffer(Color(0.75f, 0.25f, 0.1f, 0.75f), 4, 0.0f, 0.0f, 0.0f);
 
 		texture[i]->Update(V, P);
 		pos[i].y -= interval[generator()];
+	}
+
+	vector<UINT> id = pl->GetMobsInScreen();
+	for (UINT i = 0; i < id.size(); i++)
+	{
+		Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(id[i]));
+
+		if (IsMonsterInRegion(mob))
+		{
+			mob->Attacked(9);
+		}
 	}
 }
 
@@ -109,25 +123,18 @@ void FireEffect::Render()
 	if (!IsActive())
 		return;
 
-
 	for (int i = 0; i < 25; i++)
 		texture[i]->Render();
-
-	for (int i = 0; i < MAX_MOB; i++)
-	{
-		Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(i));
-		 
-		if (IsMonsterInRegion(mob))
-		{
-			mob->Attacked(9);
-		}
-	}
 }
 
 void FireEffect::Reset()
 {
 	SetActive(true);
-	time = 0.0f;
+
+	Player* pl = PLAYER;
+
+	time = 10.0f * (1 + pl->GetDuration());
+	timer = 1.0f;
 }
 
 bool FireEffect::IsMonsterInRegion(Monster * mob, float advX, float advY)

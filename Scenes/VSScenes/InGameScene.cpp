@@ -98,6 +98,8 @@ InGameScene::InGameScene()
 
 	{
 		lvUpMenu = new LvUpMenu();
+		OBJMANAGER->AddObject("LvUpMenu", lvUpMenu);
+
 		UI = (InGameUI*)OBJMANAGER->FindObject("InGameUI");
 	}
 
@@ -195,6 +197,9 @@ void InGameScene::Update()
 		return;
 	}
 
+	if (!ISPLAYING("BGM"))
+		PLAYSOUND("BGM", bgmSize);
+
 	// Esc Menu
 	{
 		if (DOWN(VK_ESCAPE))
@@ -264,6 +269,8 @@ void InGameScene::Update()
 
 	// 몬스터
 	{
+		CreateMonster();
+
 		for (int i = 0; i < MAX_MOB; i++)
 		{
 			mob[i]->Update(V, P);
@@ -289,6 +296,11 @@ void InGameScene::Update()
 	// Dead Menu
 	{
 		deadMenu->Update(V, P);
+	}
+
+	// Entity Manager
+	{
+		ENTMANAGER->Update(V, P);
 	}
 }
 
@@ -366,6 +378,11 @@ void InGameScene::Render()
 		chestMenu->Render();
 	}
 
+	// EntityManager
+	{
+		ENTMANAGER->Render();
+	}
+
 	ENDDRAW;
 
 	ShowGUI();
@@ -373,11 +390,6 @@ void InGameScene::Render()
 
 void InGameScene::ChangeScene()
 {
-	PLAYSOUND("BGM", bgmSize);
-
-	if (ISPLAYING("BGM"))
-		cout << "재생 완료!" << endl;
-
 	SetActive(true);
 
 	slideBox[0]->SetTopTabGroup(nullptr);
@@ -408,10 +420,27 @@ void InGameScene::ChangeScene()
 
 	time = 0.0f;
 
+	mt19937 engine((unsigned int)GetTickCount());
+	uniform_int_distribution<> distribution(-500, 500);
+	auto generator = bind(distribution, engine);
+	
 	for (int i = 0; i < MAX_MOB; i++)
 	{
+		float x = 0.0f;
+		float y = 0.0f;
+	
 		Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(i));
-		mob->SetActive(false);
+	
+		x = (float)generator();
+		y = (float)generator();
+	
+		mob->Reset();
+		mob->SetMoving(true);
+		mob->SetMoveSpeed(30.0f);
+		mob->SetIntersect(true);
+		mob->SetDamage(20.0f);
+		mob->SetPosition(x, y);
+		mob->SetActive(true);
 	}
 
 	for (int i = 0; i < MAX_ITEM; i++)
@@ -614,25 +643,66 @@ void InGameScene::CreateBrazier()
 
 	if (ctime <= 0.0f)
 	{
-		int id = 0;
+		UINT index = ENTMANAGER->GetAddableBrazIndex();
+		string str = "Brazier" + to_string(index);
 
-		for (int i = 0; i < MAX_ITEM; i++)
-		{
-			Brazier* br = (Brazier*)OBJMANAGER->FindObject("Brazier" + to_string(i));
-			if (br->IsActive())
-				id++;
-			else
-			{
-				br->Reset();
-				cout << "화로 " << i << " 생성됨!" << endl;
-				break;
-			}
-		}
+		Brazier* obj = (Brazier*)OBJMANAGER->FindObject(str);
+		obj->Reset();
 
-		ctime = 15.0f;
+		ENTMANAGER->UpdateBrazier();
+
+		ctime = 20.0f;
 	}
 	else
 		ctime -= DELTA;
+}
+
+void InGameScene::CreateMonster()
+{
+	return;
+
+	mt19937 engine((unsigned int)GetTickCount());
+	uniform_int_distribution<> distribution(-1000, 1000);
+	auto generator = bind(distribution, engine);
+	
+	static float ratio = 1.2f;
+
+	if (rtime >= ratio)
+	{
+		for (UINT i = 0; i < MAX_MOB; i++)
+		{
+			Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(i));
+
+			if (mob->IsActive())
+				continue;
+			else
+			{
+				float x = (float)generator();
+				float y = (float)generator();
+
+				mob->Reset();
+				mob->SetMoving(true);
+				mob->SetMoveSpeed(30.0f);
+				mob->SetIntersect(true);
+				mob->SetDamage(20.0f);
+				mob->SetPosition(x, y);
+				mob->SetActive(true);
+
+				if (i == 30)
+				{
+					mob->SetHp(150.0f);
+					mob->SetScale(5.0f, 5.0f);
+				}
+
+				rtime = 0.0f;
+				ratio *= 0.975f;
+				return;
+			}
+		}
+	}
+	else
+		rtime += DELTA;
+
 }
 
 void InGameScene::OnButtonClicked(int buttonID)
@@ -683,6 +753,8 @@ void InGameScene::ShowGUI()
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
+
+	mt19937	engine((unsigned int)std::time(NULL));
 
 	EquipList* skills = (EquipList*)OBJMANAGER->FindObject("EquipList");
 	ListCtrl* lc = (ListCtrl*)OBJMANAGER->FindObject("ListCtrl");
@@ -842,7 +914,6 @@ void InGameScene::ShowGUI()
 
 					ImGui::EndListBox();
 
-					ImGui::SameLine();
 					if (ImGui::Button("Reset A", ImVec2(40.0f, 25.0f)))
 					{
 						cout << "Equipment Reset!" << endl;
@@ -1005,11 +1076,6 @@ void InGameScene::ShowGUI()
 				if (ImGui::SliderFloat2("Position", position, -1000.0f, 1000.0f, "%.f", 1.0f))
 				{
 					Vector2 pos = Vector2(position[0], position[1]);
-					CAMERA->VCToWC(pos);
-					wstring str = L"+";
-					
-					DirectWrite::RenderText(str, pos, 0, 255, 0, 30.0f);
-
 					item[amount]->SetPosition(pos);
 				}
 
@@ -1043,8 +1109,6 @@ void InGameScene::ShowGUI()
 				{
 
 				}
-
-				const mt19937 engine((unsigned int)GetTickCount());
 
 				if (rangeX[0] >= rangeX[1])
 					rangeX[1] = rangeX[0] + 1;
@@ -1136,7 +1200,6 @@ void InGameScene::ShowGUI()
 						{
 							brazier[amount]->SetActive(true);
 							brazier[amount]->SetHP(10.0f);
-							brazier[amount]->SetID(amount);
 							brazier[amount]->SetPosition(position[0], position[1]);
 							cout << amount << "번째 아이템 생성" << endl;
 						}
@@ -1161,8 +1224,6 @@ void InGameScene::ShowGUI()
 
 				}
 
-				const mt19937 engine((unsigned int)GetTickCount());
-
 				if (rangeX[0] >= rangeX[1])
 					rangeX[1] = rangeX[0] + 1;
 				if (rangeY[0] >= rangeY[1])
@@ -1182,7 +1243,6 @@ void InGameScene::ShowGUI()
 						{
 							brazier[amount]->SetActive(true);
 							brazier[amount]->SetHP(10.0f);
-							brazier[amount]->SetID(amount);
 							brazier[amount]->SetPosition((float)generator1(), (float)generator2());
 							cout << amount << "번째 화로 생성" << endl;
 						}
@@ -1199,7 +1259,6 @@ void InGameScene::ShowGUI()
 					Vector2 pPos = player->GetPosition();
 					brazier[amount]->SetActive(true);
 					brazier[amount]->SetHP(10.0f);
-					brazier[amount]->SetID(amount);
 					brazier[amount]->SetPosition(pPos);
 					cout << amount << "번째 화로 생성" << endl;
 				}
@@ -1261,11 +1320,12 @@ void InGameScene::ShowGUI()
 				static bool move = true;
 				if (ImGui::Checkbox("Move?", &move))
 				{
-					for (int i = 0; i < MAX_MOB; i++)
-					{
-						mob[i]->SetMoveSpeed(moveSpeed);
-						mob[i]->SetMoving(move);
-					}
+				}
+
+				for (int i = 0; i < MAX_MOB; i++)
+				{
+					mob[i]->SetMoveSpeed(moveSpeed);
+					mob[i]->SetMoving(move);
 				}
 
 				ImGui::SameLine();
@@ -1273,9 +1333,9 @@ void InGameScene::ShowGUI()
 				static bool col = true;
 				if (ImGui::Checkbox("Collision?", &col))
 				{
-					for (int i = 0; i < MAX_MOB; i++)
-						mob[i]->SetIntersect(col);
 				}
+				for (int i = 0; i < MAX_MOB; i++)
+					mob[i]->SetIntersect(col);
 
 				//ImGui::SameLine();
 
@@ -1333,8 +1393,6 @@ void InGameScene::ShowGUI()
 
 				}
 
-				const mt19937 engine((unsigned int)GetTickCount());
-
 				if (rangeX[0] >= rangeX[1])
 					rangeX[1] = rangeX[0] + 1;
 				if (rangeY[0] >= rangeY[1])
@@ -1348,7 +1406,7 @@ void InGameScene::ShowGUI()
 				//ImGui::SameLine();
 				if (ImGui::Button("Supply R2", ImVec2(47.5f, 25.0f)))
 				{
-					if (amount < MAX_MOB)
+					if (amount < MAX_MOB - 1)
 					{
 						if (!item[amount]->IsActive())
 						{
@@ -1434,7 +1492,7 @@ void InGameScene::ShowGUI()
 				ImGui::SameLine();
 				if (ImGui::ArrowButton("SecDown", ImGuiDir_Down))
 				{
-					sec += val2;
+					sec -= val2;
 					UI->SetSec(sec);
 				}
 

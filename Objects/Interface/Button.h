@@ -22,6 +22,8 @@ public:
 
 
 private:
+	class Texture* texture = nullptr;
+
 	int color = 0;
 	float scriptSize = 0.0f;
 

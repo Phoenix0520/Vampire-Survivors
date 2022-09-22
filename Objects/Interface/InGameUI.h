@@ -16,7 +16,7 @@ public:
 	float GetRatio()	{ return ratio; }
 
 	void SetMin(int val)		{ min = val; }
-	void SetSec(int val)		{ sec = val; }
+	void SetSec(int val)		{ time = (float)val; }
 	void SetRatio(float val)	{ ratio = val; }
 	
 

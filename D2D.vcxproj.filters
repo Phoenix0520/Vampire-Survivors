@@ -36,10 +36,8 @@
     <ClInclude Include="Libraries\imgui.h" />
     <ClInclude Include="Libraries\imconfig.h" />
     <ClInclude Include="Libraries\imguiDx11.h" />
-    <ClInclude Include="Effects\SkillEffect.h" />
     <ClInclude Include="Objects\VamSur\Monster.h" />
     <ClInclude Include="Effects\BloodEffect.h" />
-    <ClInclude Include="Objects\MobManager.h" />
     <ClInclude Include="Objects\VamSur\EquipList.h" />
     <ClInclude Include="Effects\LvUpEffect.h" />
     <ClInclude Include="Base\Soft\clipper.hpp" />
@@ -64,6 +62,9 @@
     <ClInclude Include="Objects\Interface\SlideBox.h" />
     <ClInclude Include="Objects\Interface\CheckBox.h" />
     <ClInclude Include="Effects\ChestEffect.h" />
+    <ClInclude Include="Objects\EntityManager.h" />
+    <ClInclude Include="Effects\Skill\SkillEffect.h" />
+    <ClInclude Include="Effects\Skill\Whip.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Systems\D2D.cpp" />
@@ -89,10 +90,8 @@
     <ClCompile Include="Objects\VamSur\Player.cpp" />
     <ClCompile Include="Objects\SRVManager.cpp" />
     <ClCompile Include="Scenes\VSScenes\WarningScene.cpp" />
-    <ClCompile Include="Effects\SkillEffect.cpp" />
     <ClCompile Include="Objects\VamSur\Monster.cpp" />
     <ClCompile Include="Effects\BloodEffect.cpp" />
-    <ClCompile Include="Objects\MobManager.cpp" />
     <ClCompile Include="Objects\VamSur\EquipList.cpp" />
     <ClCompile Include="Effects\LvUpEffect.cpp" />
     <ClCompile Include="Base\Soft\clipper.cpp" />
@@ -116,6 +115,10 @@
     <ClCompile Include="Objects\Interface\SlideBox.cpp" />
     <ClCompile Include="Objects\Interface\CheckBox.cpp" />
     <ClCompile Include="Effects\ChestEffect.cpp" />
+    <ClCompile Include="Components\framework.cpp" />
+    <ClCompile Include="Objects\EntityManager.cpp" />
+    <ClCompile Include="Effects\Skill\SkillEffect.cpp" />
+    <ClCompile Include="Effects\Skill\Whip.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\HLSL\Color.hlsl" />

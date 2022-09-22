@@ -28,6 +28,8 @@ private:
 
 	class Button*		button		= nullptr;
 
+	class LvUpMenu* lvUpMenu = nullptr;
+
 	Rarity	rarity			= NORMAL;
 
 	int		include			= 0;

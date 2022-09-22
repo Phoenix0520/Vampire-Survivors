@@ -1,6 +1,7 @@
 #include "framework.h"
 #include "ScreenEffect.h"
 #include "Monster.h"
+#include "Player.h"
 
 ScreenEffect::ScreenEffect()
 {
@@ -28,6 +29,10 @@ void ScreenEffect::Update(Matrix V, Matrix P)
 	if (!IsActive())
 		return;
 
+	pl = PLAYER;
+
+	vector<UINT> ids = pl->GetMobsInScreen();
+
 	switch (type)
 	{
 	case 0:
@@ -45,9 +50,9 @@ void ScreenEffect::Update(Matrix V, Matrix P)
 		else
 			alpha = (1.0f - time) * 2.0f;
 
-		for (int i = 0; i < MAX_MOB; i++)
+		for (UINT i = 0; i < ids.size(); i++)
 		{
-			Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(i));
+			Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(ids[i]));
 
 			if (!mob->IsActive())
 				continue;
@@ -63,9 +68,9 @@ void ScreenEffect::Update(Matrix V, Matrix P)
 		if (time >= 10.0f)
 		{
 			SetActive(false);
-			for (int i = 0; i < MAX_MOB; i++)
+			for (UINT i = 0; i < ids.size(); i++)
 			{
-				Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(i));
+				Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(ids[i]));
 
 				if (!mob->IsActive())
 					continue;
@@ -100,9 +105,9 @@ void ScreenEffect::Update(Matrix V, Matrix P)
 		//texture->SetScale(15.0f, 15.0f);
 		//texture->Update(V, P);
 
-		for (int i = 0; i < MAX_MOB; i++)
+		for (UINT i = 0; i < ids.size(); i++)
 		{
-			Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(i));
+			Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(ids[i]));
 
 			if (!mob->IsActive())
 				continue;

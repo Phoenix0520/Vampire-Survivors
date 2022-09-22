@@ -50,7 +50,7 @@ void WarningScene::Update()
 	static float tTime = 0.0f;
 	static float pTime = 0.0f;
 
-	mt19937 engine((UINT)GetTickCount());
+	mt19937	engine((unsigned int)std::time(NULL));
 	uniform_int_distribution<> distribution(0, 150);
 	auto generator = bind(distribution, engine);
 

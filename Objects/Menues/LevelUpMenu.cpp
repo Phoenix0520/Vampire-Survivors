@@ -72,78 +72,8 @@ void LvUpMenu::Update(Matrix V, Matrix P)
 		select = true;
 
 		// Skill Choosed
-		if (way[hover] < 8)
-		{
-			if (!list->GetSkillEquip(way[hover]))
-			{
-				list->UpdateSkillEquip(way[hover], true);
-				list->UpdateSkillLevel(way[hover], 1);
-			
-				int min = UI->GetMin();
-				int sec = UI->GetSec();
-
-				player->SetPrimaryEquipMin(way[hover], min);
-				player->SetPrimaryEquipSec(way[hover], sec);
-			}
-			else
-			{
-				int lv = list->GetSkillLevel(way[hover]);
 		
-				IncreasingItemValue(way[hover], lv);
-				list->UpdateSkillLevel(way[hover], lv + 1);
-			}
-			
-			int count = 0;
-
-			for (int i = 0; i < 6; i++)
-			{
-				if (equipSkillList[i] != -1)
-					count++;
-				if (equipSkillList[i] == way[hover])
-					return;
-			}
-			
-			
-			player->SetEquipedSkill(count, way[hover]);
-		}
-		// Item Choosed
-		else if (way[hover] < 20)
-		{
-			player->ApplyItem(way[hover] - 8);
-
-			if (!list->GetItemEquip(way[hover] - 8))
-			{
-				list->UpdateItemEquip(way[hover] - 8, true);
-				list->UpdateItemLevel(way[hover] - 8, 1);
-			}
-			else
-			{
-				int lv = list->GetItemLevel(way[hover] - 8);
-				list->UpdateItemLevel(way[hover] - 8, lv + 1);
-			}
-			
-			int count = 0;
-
-			for (int i = 0; i < 6; i++)
-			{
-				if (equipItemList[i] != -1)
-					count++;
-				if (equipItemList[i] == way[hover])
-					return;
-			}
-
-			player->SetEquipedItem(count, way[hover]);
-		}
-		else
-		{
-			if (way[hover] == 20) // 동전 가방을 고른경우
-				player->SetCoin(player->GetCoin() + 25);
-			else // 치킨을 고른경우
-				player->EatChicken();
-
-			return;
-		}
-
+		Upgrade(way[hover]);
 
 		// 컬렉션 등록
 
@@ -358,9 +288,9 @@ void LvUpMenu::Random()
 
 	Player* pl = PLAYER;
 
-	mt19937 engine((unsigned int)GetTickCount());
-
 	float luck = pl->GetLuck() * 100.0f;
+
+	mt19937	engine((unsigned int)std::time(NULL));
 	uniform_int_distribution<> distribution(0, 100);
 	auto generator = bind(distribution, engine);
 	
@@ -573,6 +503,83 @@ void LvUpMenu::SetProperty()
 	}
 }
 
+void LvUpMenu::Upgrade(int type)
+{
+	Player* player = PLAYER;
+
+	if (type < 8)
+	{
+		if (!list->GetSkillEquip(type))
+		{
+			list->UpdateSkillEquip(type, true);
+			list->UpdateSkillLevel(type, 1);
+
+			int min = UI->GetMin();
+			int sec = UI->GetSec();
+
+			player->SetPrimaryEquipMin(type, min);
+			player->SetPrimaryEquipSec(type, sec);
+		}
+		else
+		{
+			int lv = list->GetSkillLevel(type);
+
+			IncreasingItemValue(type, lv);
+			list->UpdateSkillLevel(type, lv + 1);
+		}
+
+		int count = 0;
+
+		for (int i = 0; i < 6; i++)
+		{
+			if (equipSkillList[i] != -1)
+				count++;
+			if (equipSkillList[i] == type)
+				return;
+		}
+
+
+		player->SetEquipedSkill(count, type);
+	}
+	// Item Choosed
+	else if (type < 20)
+	{
+		player->ApplyItem(type - 8);
+
+		if (!list->GetItemEquip(type - 8))
+		{
+			list->UpdateItemEquip(type - 8, true);
+			list->UpdateItemLevel(type - 8, 1);
+		}
+		else
+		{
+			int lv = list->GetItemLevel(type - 8);
+			list->UpdateItemLevel(type - 8, lv + 1);
+		}
+
+		int count = 0;
+
+		for (int i = 0; i < 6; i++)
+		{
+			if (equipItemList[i] != -1)
+				count++;
+			if (equipItemList[i] == type)
+				return;
+		}
+
+		player->SetEquipedItem(count, type);
+	}
+	else
+	{
+		if (type == 20) // 동전 가방을 고른경우
+			player->SetCoin(player->GetCoin() + 25);
+		else // 치킨을 고른경우
+			player->EatChicken();
+
+		return;
+	}
+}
+
 void LvUpMenu::ReadTextFile(int row, Vector2& offset, Vector2& offsetSize)
 {
 	FILE* fp = fopen("./Offset2.txt", "rt");
@@ -629,11 +636,11 @@ void LvUpMenu::IncreasingItemValue(int id, int level)
 			path = 2;
 		else if (strchr(type, 'U') != nullptr)	// Duration 스킬 지속시간
 			path = 3;
-		else if (strchr(type, 'P') != nullptr)	// Spear 적 관통 횟수
+		else if (strchr(type, 'E') != nullptr)	// Spear 적 관통 횟수
 			path = 4;
 		else if (strchr(type, 'S') != nullptr)	// Skill Speed 투사체 속도
 			path = 5;
-		else if (strchr(type, 'O') != nullptr)	// Power 스킬 데미지 
+		else if (strchr(type, 'W') != nullptr)	// Power 스킬 데미지 
 			path = 6;
 		else if (strchr(type, 'T') != nullptr)	// Cool Time 스킬 쿨타임 감소
 			path = 7;
@@ -673,8 +680,5 @@ void LvUpMenu::IncreasingItemValue(int id, int level)
 		cout << value << " 만큼 스킬 쿨다운 증가!" << endl;
 		break;
 	}
-	
-
-
 }
 

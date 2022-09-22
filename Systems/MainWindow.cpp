@@ -8,13 +8,14 @@ ID3D11Device*			Device = nullptr; // CPU 영역
 ID3D11DeviceContext*	DeviceContext = nullptr; // GPU 영역
 IDXGISwapChain*			SwapChain = nullptr; // 더블 버퍼링을 위한 것,
 ID3D11RenderTargetView* rtv = nullptr; // 실제 그려질 영역
-float					bgmSize = 0.5f;
-float					sfxSize = 0.5f;
+float					bgmSize = 0.0f;
+float					sfxSize = 0.0f;
 bool					visibleStatus = false;
 bool					visiblePlayerState = false;
 bool					visibleCollider = false;
 bool					visibleObjID = false;
 int						availableMob = 0;
+
 
 //////////////////////////////////////////////
 // 생성자 / 소멸자
@@ -378,12 +379,15 @@ LRESULT MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 				visibleCollider = true;
 			break;
 		case VK_F2:
+			ENTMANAGER->ToggleVisible();
+			break;
+		case VK_F3:
 			if (visiblePlayerState)
 				visiblePlayerState = false;
 			else
 				visiblePlayerState = true;
 			break;
-		case VK_F3:
+		case VK_F4:
 			if (visibleObjID)
 				visibleObjID = false;
 			else

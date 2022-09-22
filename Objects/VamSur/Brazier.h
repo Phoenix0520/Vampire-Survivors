@@ -33,17 +33,12 @@ public:
 	void SetHP(float val) { hp = val; }
 	float GetHP() { return hp; }
 
-	void SetID(int val) { id = val; }
-	int GetID() { return id; }
-
 	void Attacked(float damage);
 
 private:
 	class Texture* texture = nullptr;
 
 	Include	include = Coin;
-
-	int id = 0;
 
 	float hp = 10.0f;
 	float time = 0.5f;

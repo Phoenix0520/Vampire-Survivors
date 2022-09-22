@@ -10,6 +10,7 @@ ObjectManager::~ObjectManager()
 {
 	for (auto a : objects)
 		SAFE_DELETE(a.second);
+
 	ClearObjectStrings();
 }
 
