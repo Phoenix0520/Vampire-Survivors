@@ -1,22 +1,6 @@
 #include "framework.h"
-#include "SkillEffect.h"
+#include "SkillHeader.h"
 #include "Whip.h"
-#include "Monster.h"
-#include "Player.h"
-
-Whip::Whip()
-{
-	attackedID.clear();
-	attackedID.resize(MAX_MOB);
-
-	
-}
-
-Whip::~Whip()
-{
-	SAFE_DELETE(texture);
-	SAFE_DELETE(collider);
-}
 
 void Whip::UpdateEffect(Matrix V, Matrix P)
 {
@@ -45,8 +29,6 @@ void Whip::UpdateEffect(Matrix V, Matrix P)
 
 	if (texture->GetScale().x < 0.1f)
 		texture->SetScale(0.0f, 0.0f);
-
-	cout << "Έχ : " << mobs.size() << endl;
 
 	for (UINT i = 0; i < mobs.size(); i++)
 	{

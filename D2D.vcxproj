@@ -25,7 +25,16 @@
     <ClInclude Include="Base\Hard\Camera.h" />
     <ClInclude Include="Base\Soft\clipper.hpp" />
     <ClInclude Include="Base\Soft\Collider.h" />
+    <ClInclude Include="Components\SkillHeader.h" />
+    <ClInclude Include="Components\SkillList.h" />
     <ClInclude Include="Effects\ChestEffect.h" />
+    <ClInclude Include="Effects\Skill\Axe.h" />
+    <ClInclude Include="Effects\Skill\Bible.h" />
+    <ClInclude Include="Effects\Skill\Cross.h" />
+    <ClInclude Include="Effects\Skill\FireWand.h" />
+    <ClInclude Include="Effects\Skill\Garlic.h" />
+    <ClInclude Include="Effects\Skill\MagicWand.h" />
+    <ClInclude Include="Effects\Skill\Knife.h" />
     <ClInclude Include="Effects\Skill\Whip.h" />
     <ClInclude Include="Objects\Menues\ChestMenu.h" />
     <ClInclude Include="Util\Convert.h" />
@@ -100,6 +109,13 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">framework.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Effects\ChestEffect.cpp" />
+    <ClCompile Include="Effects\Skill\Axe.cpp" />
+    <ClCompile Include="Effects\Skill\Bible.cpp" />
+    <ClCompile Include="Effects\Skill\Cross.cpp" />
+    <ClCompile Include="Effects\Skill\FireWand.cpp" />
+    <ClCompile Include="Effects\Skill\Garlic.cpp" />
+    <ClCompile Include="Effects\Skill\MagicWand.cpp" />
+    <ClCompile Include="Effects\Skill\Knife.cpp" />
     <ClCompile Include="Effects\Skill\Whip.cpp" />
     <ClCompile Include="Objects\Menues\ChestMenu.cpp" />
     <ClCompile Include="Util\Convert.cpp" />

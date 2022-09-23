@@ -249,10 +249,8 @@ void Player::Update(Matrix V, Matrix P)
 		{
 			if (!skills->GetSkillEquip(i))
 				continue;
-			if (i != 0)
-				break;
-
-			Whip* se = (Whip*)skills->GetSkillEffect(i);
+		
+			SkillEffect* se = skills->GetSkillEffect(i);
 
 			se->SetRotation(GetRotation());
 			se->SetPosition(GetPosition());
@@ -281,11 +279,11 @@ void Player::Render()
 	if (!IsActive())
 		return;
 
-	//if (skills->GetSkillEquip(7))
-	//{
-	//	SkillEffect* se8 = skills->GetSkillEffect(7);
-	//	se8->Render();
-	//}
+	if (skills->GetSkillEquip(7))
+	{
+		SkillEffect* se8 = skills->GetSkillEffect(7);
+		se8->Render();
+	}
 
 	animation->Render();
 
@@ -294,10 +292,7 @@ void Player::Render()
 		if (!skills->GetSkillEquip(i))
 			continue;
 
-		if (i != 0)
-			break;
-
-		Whip* se = (Whip*)skills->GetSkillEffect(i);
+		SkillEffect* se = skills->GetSkillEffect(i);
 
 		se->Render();
 		se->RenderEffect();

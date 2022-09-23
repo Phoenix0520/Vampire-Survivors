@@ -11,6 +11,10 @@ public:
 	void Render	() override;
 	void Reset	() override;
 
+	virtual void UpdateEffect(Matrix V, Matrix P) = 0;
+	virtual void RenderEffect() = 0;
+	virtual void ResetEffect() = 0;
+
 	//void UpdateSkillEffect1(Matrix V, Matrix P);
 	//void UpdateSkillEffect2(Matrix V, Matrix P);
 	//void UpdateSkillEffect3(Matrix V, Matrix P);
@@ -35,7 +39,6 @@ protected:
 	vector<class Brazier*> brzs;
 
 	int id			= 0;
-	int spearCount	= 0;
 
 	int	spear		= 0;
 
@@ -48,6 +51,7 @@ protected:
 	// Skill Stats
 
 	bool soundPlayed = false;
+
 	vector<bool> attackedID;
 	vector<UINT> ids;
 };

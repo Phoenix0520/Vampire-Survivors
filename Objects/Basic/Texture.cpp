@@ -47,6 +47,9 @@ Texture::~Texture()
 
 void Texture::Update(Matrix V, Matrix P)
 {
+	if (!active)
+		return;
+
 	Matrix W, S, T, R;
 
 	D3DXMatrixIdentity(&S);
@@ -94,6 +97,9 @@ void Texture::Update(Matrix V, Matrix P)
 
 void Texture::Render()
 {
+	if (!active)
+		return;
+
 	UINT stride = sizeof(Vertex);	// 정점 크기에대한 정보
 	UINT offset = 0;
 

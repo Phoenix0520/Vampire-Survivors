@@ -65,6 +65,15 @@
     <ClInclude Include="Objects\EntityManager.h" />
     <ClInclude Include="Effects\Skill\SkillEffect.h" />
     <ClInclude Include="Effects\Skill\Whip.h" />
+    <ClInclude Include="Effects\Skill\MagicWand.h" />
+    <ClInclude Include="Components\SkillHeader.h" />
+    <ClInclude Include="Effects\Skill\Knife.h" />
+    <ClInclude Include="Effects\Skill\Axe.h" />
+    <ClInclude Include="Effects\Skill\Cross.h" />
+    <ClInclude Include="Effects\Skill\Bible.h" />
+    <ClInclude Include="Components\SkillList.h" />
+    <ClInclude Include="Effects\Skill\FireWand.h" />
+    <ClInclude Include="Effects\Skill\Garlic.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Systems\D2D.cpp" />
@@ -119,6 +128,13 @@
     <ClCompile Include="Objects\EntityManager.cpp" />
     <ClCompile Include="Effects\Skill\SkillEffect.cpp" />
     <ClCompile Include="Effects\Skill\Whip.cpp" />
+    <ClCompile Include="Effects\Skill\MagicWand.cpp" />
+    <ClCompile Include="Effects\Skill\Knife.cpp" />
+    <ClCompile Include="Effects\Skill\Axe.cpp" />
+    <ClCompile Include="Effects\Skill\Cross.cpp" />
+    <ClCompile Include="Effects\Skill\Bible.cpp" />
+    <ClCompile Include="Effects\Skill\FireWand.cpp" />
+    <ClCompile Include="Effects\Skill\Garlic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\HLSL\Color.hlsl" />

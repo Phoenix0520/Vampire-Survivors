@@ -2,8 +2,7 @@
 #include "SceneManager.h"
 #include "SceneList.h"
 #include "ObjectList.h"
-#include "HitEffect.h"
-#include "Whip.h"
+#include "SkillList.h"
 
 ////////////////////////////////////////////////////////
 // 생성자, 소멸자
@@ -68,21 +67,44 @@ void SceneManager::CreateObject()
 		start = GetTickCount();
 		for (int i = 0; i < 8; i++)
 		{
-			if (i == 0)
+			SkillEffect* se = nullptr;
+
+			switch (i)
 			{
-				Whip* we = new Whip();
-				OBJMANAGER->AddObject("SkillEffect0", we);
+			case 0:
+				se = new Whip();
+				break;
+			case 1:
+				se = new MagicWand();
+				break;
+			case 2:
+				se = new Knife();
+				break;
+			case 3:
+				se = new Axe();
+				break;
+			case 4:
+				se = new Cross();
+				break;
+			case 5:
+				se = new Bible();
+				break;
+			case 6:
+				se = new FireWand();
+				break;
+			case 7:
+				se = new Garlic();
+				break;
 			}
-			else
+			
+			if (se)
 			{
-				SkillEffect* se = new SkillEffect();
 				se->SetID(i);
 				OBJMANAGER->AddObject("SkillEffect" + to_string(i), se);
 			}
 		}
 		end = GetTickCount();
 		cout << "SkillEffect : " << (float)(end - start) / 1000 << " sec" << endl;
-		
 	}
 
 	// EquipList

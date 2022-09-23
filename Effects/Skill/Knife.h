@@ -1,10 +1,10 @@
 #pragma once
 
-class Whip : public SkillEffect
+class Knife : public SkillEffect
 {
 public:
-	Whip() {}
-	~Whip() {}
+	Knife() {}
+	~Knife() {}
 
 public:
 	void UpdateEffect(Matrix V, Matrix P) override;
@@ -12,8 +12,11 @@ public:
 	void ResetEffect() override;
 
 private:
+	Vector2 mPos = Vector2(0.0f, 0.0f);
 	Vector2 pos = Vector2(0.0f, 0.0f);
 
-	vector<class Monster*> mobs;
+	vector<Monster*> mobs;
+
+	int spearCount = 0;
 
 };

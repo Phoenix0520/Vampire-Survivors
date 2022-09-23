@@ -1,10 +1,10 @@
 #pragma once
 
-class Whip : public SkillEffect
+class Garlic : public SkillEffect
 {
 public:
-	Whip() {}
-	~Whip() {}
+	Garlic() {}
+	~Garlic() {}
 
 public:
 	void UpdateEffect(Matrix V, Matrix P) override;
@@ -12,8 +12,9 @@ public:
 	void ResetEffect() override;
 
 private:
-	Vector2 pos = Vector2(0.0f, 0.0f);
+	vector<Monster*> mobs;
 
-	vector<class Monster*> mobs;
+	float rot = 0.0f;
 
+	int spearCount = 0;
 };

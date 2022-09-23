@@ -42,6 +42,7 @@ public:	// 공유 함수
 	void SetOffsetSize(Vector2 size) { spriteSize = size; }
 	void SetImageFile(wstring file) { imageFile = file; }
 	void SetImageSize(Vector2 size) { imageSize = size; }
+	void SetActive(bool val) { active = val; }
 	// Setter 함수
 
 	Vector2 GetPosition() { return position; }
@@ -59,31 +60,29 @@ private: // 비공유 함수
 	
 	ID3D11ShaderResourceView* FindShaderResourceView();
 	// srv 를 반환하는 함수
-	
 
 private: // 멤버 변수
-	// Texture 에서는 uv 를 사용한다.
-
 	map<wstring, SpriteResource*> spriteResources;
 	// ImageFile 에 대한 데이터저장
 
-	Vector2 position = Vector2(0.0f, 0.0f);
-	Vector2 scale = Vector2(1.0f, 1.0f);
-	Vector3 rotation = Vector3(0.0f, 0.0f, 0.0f);
+	Vector2 position	= Vector2(0.0f, 0.0f);
+	Vector2 scale		= Vector2(1.0f, 1.0f);
+	Vector3 rotation	= Vector3(0.0f, 0.0f, 0.0f);
 	// 정점의 대한 값
 
-	Vector2 spriteOffset = Vector2(0.0f, 0.0f);
-	Vector2 spriteSize = Vector2(0.0f, 0.0f);
-	Vector2 imageSize = Vector2(0.0f, 0.0f);
+	Vector2 spriteOffset	= Vector2(0.0f, 0.0f);
+	Vector2 spriteSize		= Vector2(0.0f, 0.0f);
+	Vector2 imageSize		= Vector2(0.0f, 0.0f);
 	// Sprite 에 대한 값
 
 	wstring imageFile;
 	// map 에서 srv 를 찾기위한 key
 
-	ID3D11ShaderResourceView* srv = nullptr;	// 생성은 안하고 변수로서 사용
-	ID3D11Buffer*			  vertexBuffer = nullptr;
-	class TextureShader*	  shader = nullptr;
+	ID3D11ShaderResourceView* srv			= nullptr;	// 생성은 안하고 변수로서 사용
+	ID3D11Buffer*			  vertexBuffer	= nullptr;
+	class TextureShader*	  shader		= nullptr;
 	// srv, 정점 버퍼, 셰이더
 
+	bool active = true;
 };
 
