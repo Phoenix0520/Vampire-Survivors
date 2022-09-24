@@ -180,8 +180,8 @@ void ChestEffect::ItemRoullet()
 		pos.y = -200.0f;
 	}
 
-	Vector2 bot = Vector2(0.0f, CAMPOS.x - 160.0f);
-	Vector2 top = Vector2(0.0f, CAMPOS.x + 310.0f);
+	Vector2 bot = Vector2(0.0f, CAMPOS.y - 200.0f);
+	Vector2 top = Vector2(0.0f, CAMPOS.y + 350.0f);
 
 	size_t id = 0;
 

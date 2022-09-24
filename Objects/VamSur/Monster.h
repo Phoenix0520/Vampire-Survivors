@@ -67,6 +67,7 @@ public:
 private:
 	class Animation* animation = nullptr;
 	class HitEffect* hitEffect = nullptr;
+	class DamageCount* damageCount = nullptr;
 
 	State state = MOVE;
 	Type  type  = BAT;

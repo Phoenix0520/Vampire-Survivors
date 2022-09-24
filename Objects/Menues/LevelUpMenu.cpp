@@ -302,9 +302,9 @@ void LvUpMenu::Random()
 	{
 		int val = generator();
 
-		cout << "행운 : " << luck << "%" << endl << endl;
+		cout << "행운 계수 : " << (100 * (luck / (100 + luck))) << "%" << endl << endl;
 
-		if (val <= 100 * (luck / 100 + luck))
+		if (val <= 100 * (luck / (100 + luck)))
 			wayCount = 4;
 		else
 			wayCount = 3;
@@ -616,69 +616,76 @@ void LvUpMenu::ReadTextFile(int row, Vector2& offset, Vector2& offsetSize)
 
 void LvUpMenu::IncreasingItemValue(int id, int level)
 {
-	int path = 0;
-	
-	string input = addType[level * 8 + id];
-	cout << level << " 열" << id << " 번째 데이터 가져옴" << endl;
-	char* type = new char();
-	float value = 0.0f;
+	string input[2] = { addType[level * 8 + id] , addType[level * 8 + id] };
+	char* type[2] = { new char(), new char() };
+	float value[2] = { 0.0f, 0.0f };
+	UINT amount = 0;
 
-	if (strchr(input.c_str(), '|') == nullptr)
+	if (strchr(input[amount].c_str(), '|') == nullptr)
 	{
-		value = strtof(input.c_str(), &type);
-		//value = strtof((const char*)"AR2.0", &type);
+		value[amount] = strtof(input[amount].c_str(), &type[amount]);
+		cout << "Input : " << input[amount] << " Type : " << type[amount] << " Value : " << value[amount] << endl;
 
-		cout << "Input : " << input << " Type : " << type << " Value : " << value << endl;
-
-		if (strchr(type, 'M') != nullptr)	// AMount 스킬 투사체 수
-			path = 1;
-		else if (strchr(type, 'R') != nullptr)	// Attack Range 스킬 범위
-			path = 2;
-		else if (strchr(type, 'U') != nullptr)	// Duration 스킬 지속시간
-			path = 3;
-		else if (strchr(type, 'E') != nullptr)	// Spear 적 관통 횟수
-			path = 4;
-		else if (strchr(type, 'S') != nullptr)	// Skill Speed 투사체 속도
-			path = 5;
-		else if (strchr(type, 'W') != nullptr)	// Power 스킬 데미지 
-			path = 6;
-		else if (strchr(type, 'T') != nullptr)	// Cool Time 스킬 쿨타임 감소
-			path = 7;
+		amount++;
 	}
-	
-	switch (path)
+	else
 	{
-	case 0:
-		cout << "Skill Level Value Path 오류!" << endl;
-		break;
-	case 1:
-		list->AddSkillAmount(id, (int)value);
-		cout << value << " 만큼 투사체 수 증가!" << endl;
-		break; 
-	case 2:
-		list->AddSkillArea(id, value);
-		cout << value << " 만큼 스킬 범위 증가!" << endl;
-		break;
-	case 3:
-		list->AddSkillDuration(id, value);
-		cout << value << " 만큼 스킬 지속시간 증가!" << endl;
-		break;
-	case 4:
-		list->AddSkillSpear(id, (int)value);
-		cout << value << " 만큼 스킬 관통 횟수 증가!" << endl;
-		break;
-	case 5:
-		list->AddSkillSpeed(id, value);
-		cout << value << " 만큼 스킬 속도 증가!" << endl;
-		break;
-	case 6:
-		list->AddSkillDamage(id, value);
-		cout << value << " 만큼 스킬 데미지(공격력) 증가!" << endl;
-		break;
-	case 7:
-		list->AddSkillCoolDown(id, value);
-		cout << value << " 만큼 스킬 쿨다운 증가!" << endl;
-		break;
+		for (UINT i = 0; i < 2; i++)
+		{
+			if (amount == 0)
+			{
+				char* temp = (char*)input[amount].c_str();
+				strtok(temp, "|");
+				value[amount] = strtof(temp, &type[amount]);
+				cout << "First | Input : " << temp[amount] << " Type : " << type[amount] << " Value : " << value[amount] << endl;
+			}
+			else
+			{
+				input[amount] = strchr(input[amount].c_str(), '|') + 1;
+				value[amount] = strtof(input[amount].c_str(), &type[amount]);
+				cout << "Second | Input : " << input[amount] << " Type : " << type[amount] << " Value : " << value[amount] << endl;
+			}
+
+			amount++;
+		}
+	}
+
+	for (UINT i = 0; i < amount; i++)
+	{
+		switch (type[i][0])
+		{
+		case 'A':
+			list->AddSkillAmount(id, (int)value[amount]);
+			cout << value[amount] << " 만큼 투사체 수 증가!" << endl;
+			break;
+		case 'B':
+			list->AddSkillArea(id, value[amount]);
+			cout << value[amount] << " 만큼 스킬 범위 증가!" << endl;
+			break;
+		case 'C':
+			list->AddSkillDuration(id, value[amount]);
+			cout << value[amount] << " 만큼 스킬 지속시간 증가!" << endl;
+			break;
+		case 'D':
+			list->AddSkillSpear(id, (int)value[amount]);
+			cout << value[amount] << " 만큼 스킬 관통 횟수 증가!" << endl;
+			break;
+		case 'E':
+			list->AddSkillSpeed(id, value[amount]);
+			cout << value[amount] << " 만큼 스킬 속도 증가!" << endl;
+			break;
+		case 'F':
+			list->AddSkillDamage(id, value[amount]);
+			cout << value[amount] << " 만큼 스킬 데미지(공격력) 증가!" << endl;
+			break;
+		case 'G':
+			list->AddSkillCoolDown(id, value[amount]);
+			cout << value[amount] << " 만큼 스킬 쿨다운 증가!" << endl;
+			break;
+		default:
+			cout << "오류!" << endl;
+			break;
+		}
 	}
 }
 

@@ -71,6 +71,6 @@ void Whip::ResetEffect()
 
 	ENTMANAGER->UpdateMob();
 	mobs = ENTMANAGER->GetAvailMobs();
-
-	attackedID.resize(mobs.size(), false);
+	attackedID.clear();
+	attackedID.resize(mobs.size());
 }

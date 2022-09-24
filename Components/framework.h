@@ -223,4 +223,5 @@ extern bool						visibleStatus;
 extern bool						visiblePlayerState;
 extern bool						visibleObjID;
 extern bool						visibleCollider;
+extern bool						visibleDamageCount;
 extern int						availableMob;

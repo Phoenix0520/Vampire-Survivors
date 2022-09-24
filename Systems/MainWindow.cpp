@@ -14,6 +14,7 @@ bool					visibleStatus = false;
 bool					visiblePlayerState = false;
 bool					visibleCollider = false;
 bool					visibleObjID = false;
+bool					visibleDamageCount = false;
 int						availableMob = 0;
 
 

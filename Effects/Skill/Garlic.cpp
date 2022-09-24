@@ -14,9 +14,6 @@ void Garlic::UpdateEffect(Matrix V, Matrix P)
 		ResetEffect();
 	}
 
-	static bool plus = true;
-	static float ctime = 0.0f;
-
 	if (plus)
 		ctime += DELTA * 0.25f;
 	else
@@ -37,11 +34,11 @@ void Garlic::UpdateEffect(Matrix V, Matrix P)
 
 	texture->SetRotation(0.0f, 0.0f, rot);
 
-	float scale = 0.85f + 0.85f * area;
+	float scale = 1.0f + 1.0f * area;
 
 	texture->SetScale(scale, scale);
 
-	Vector2 pos = pl->GetPosition();
+	pos = pl->GetPosition();
 	pos.y -= 12.5f;
 
 	texture->SetPosition(pos);
@@ -56,6 +53,7 @@ void Garlic::UpdateEffect(Matrix V, Matrix P)
 				attackedID[i] = true;
 			else
 				continue;
+			
 
 			mobs[i]->Attacked(id);
 			return;
@@ -65,9 +63,6 @@ void Garlic::UpdateEffect(Matrix V, Matrix P)
 
 void Garlic::RenderEffect()
 {
-	if (!IsActive())
-		return;
-
 	texture->Render();
 }
 
@@ -77,5 +72,8 @@ void Garlic::ResetEffect()
 
 	ENTMANAGER->UpdateMob();
 	mobs = ENTMANAGER->GetAvailMobs();
+	attackedID.clear();
 	attackedID.resize(mobs.size());
+
+	SetActive(true);
 }

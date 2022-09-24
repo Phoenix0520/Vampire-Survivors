@@ -3,6 +3,7 @@
 #include "ObjectList.h"
 #include "HitEffect.h"
 #include "ScreenEffect.h"
+#include "DamageCount.h"
 
 Monster::Monster()
 {
@@ -50,6 +51,8 @@ Monster::Monster()
 	hitEffect = (HitEffect*)OBJMANAGER->FindObject("HitEffect");
 
 	collider = new Collider();
+
+	damageCount = new DamageCount();
 
 	SetActive(false);
 }
@@ -249,6 +252,9 @@ void Monster::Attacked(int id)
 	if (hp <= 0.0f)
 		state = DEAD;
 	
+	if (visibleDamageCount)
+		damageCount->Reset(position, damage);
+
 	hitEffect->Reset();
 }
 
@@ -281,6 +287,7 @@ void Monster::Render()
 	animation->Render();
 	collider->Render();
 	hitEffect->Render();
+	damageCount->Render();
 }
 
 void Monster::Reset()

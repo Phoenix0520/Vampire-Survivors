@@ -295,6 +295,13 @@ void SceneManager::Update()
 		audio->Volume("Chest1", bgmSize);
 		audio->Volume("Chest2", bgmSize);
 		audio->Volume("Chest3", bgmSize);
+
+		CheckBox* cb = (CheckBox*)OBJMANAGER->FindObject("CheckBox2");
+		
+		if (cb->IsClick())
+			visibleDamage = true;
+		else
+			visibleDamage = false;
 	}
 }
 

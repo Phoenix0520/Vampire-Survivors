@@ -28,6 +28,7 @@
     <ClInclude Include="Components\SkillHeader.h" />
     <ClInclude Include="Components\SkillList.h" />
     <ClInclude Include="Effects\ChestEffect.h" />
+    <ClInclude Include="Effects\DamageCount.h" />
     <ClInclude Include="Effects\Skill\Axe.h" />
     <ClInclude Include="Effects\Skill\Bible.h" />
     <ClInclude Include="Effects\Skill\Cross.h" />
@@ -109,6 +110,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">framework.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="Effects\ChestEffect.cpp" />
+    <ClCompile Include="Effects\DamageCount.cpp" />
     <ClCompile Include="Effects\Skill\Axe.cpp" />
     <ClCompile Include="Effects\Skill\Bible.cpp" />
     <ClCompile Include="Effects\Skill\Cross.cpp" />

@@ -26,8 +26,9 @@ void SkillEffect::Update(Matrix V, Matrix P)
 	coolTime = sl->GetSkillCoolTime(id);
 	coolTime -= coolTime * pl->GetCoolDown();
 	
-	area = sl->GetSkillArea(id);
-	area += 0.01f * pl->GetArea();
+	area = 0.0f;
+	area += pl->GetArea();
+	area += sl->GetSkillArea(id);
 
 	speed = sl->GetSkillSpeed(id);
 	speed += speed * pl->GetSkillSpeed();

@@ -14,7 +14,12 @@ public:
 private:
 	vector<Monster*> mobs;
 
+	Vector2 pos = Vector2(0.0f, 0.0f);
+
+	bool plus = false;
+
 	float rot = 0.0f;
+	float ctime = 0.0f;
 
 	int spearCount = 0;
 };

@@ -49,28 +49,28 @@ LobbyScene::LobbyScene()
 
 	// 일러스트
 	{
-		wstring imageFlie3 = L"./Images/illustrations.png";
+		wstring imageFile3 = L"./Images/illustrations.png";
 
-		texture[0] = new Texture(imageFlie3, shaderFile);
+		texture[0] = new Texture(imageFile3, shaderFile);
 		texture[0]->SetOffset(2.0f, 2.0f);
 		texture[0]->SetOffsetSize(321.0f, 189.0f);
 		texture[0]->SetPosition(0.0f, -212.5f);
 		texture[0]->SetScale(2.7975f, 2.7975f);
 
-		texture[1] = new Texture(imageFlie3, shaderFile);
+		texture[1] = new Texture(imageFile3, shaderFile);
 		texture[1]->SetOffset(2.0f, 193.0f);
 		texture[1]->SetOffsetSize(195.0f, 282.0f);
 		texture[1]->SetPosition(-445.0f, -210.0f);
 		texture[1]->SetScale(4.2295f, 4.2595f);
 		texture[1]->UpdateColorBuffer(Color(0.0f, 0.0f, 0.0f, 0.5f), 7, 0.0f, 0.0f, 0.0f);
 
-		texture[2] = new Texture(imageFlie3, shaderFile);
-		texture[2]->SetOffset(199.0f, 193.0f);
-		texture[2]->SetOffsetSize(212.0f, 200.0f);
+		imageFile3 = L"./Images/MageIllust.png";
+
+		texture[2] = new Texture(imageFile3, shaderFile);
 		texture[2]->SetPosition(470.0f, 0.0f);
 		texture[2]->SetRotation(0.0f, 180.0f, 0.0f);
 		texture[2]->SetScale(2.755f, 2.855f);
-		texture[2]->UpdateColorBuffer(Color(0.0f, 0.0f, 0.0f, 1.0f), 7, 0.0f, 0.0f, 0.0f);
+		//texture[2]->UpdateColorBuffer(Color(0.0f, 0.0f, 0.0f, 1.0f), 7, 0.0f, 0.0f, 0.0f);
 	}
 
 	wstring imageFile4 = L"./Images/UI.png";

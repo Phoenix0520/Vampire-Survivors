@@ -74,6 +74,7 @@
     <ClInclude Include="Components\SkillList.h" />
     <ClInclude Include="Effects\Skill\FireWand.h" />
     <ClInclude Include="Effects\Skill\Garlic.h" />
+    <ClInclude Include="Effects\DamageCount.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Systems\D2D.cpp" />
@@ -135,6 +136,7 @@
     <ClCompile Include="Effects\Skill\Bible.cpp" />
     <ClCompile Include="Effects\Skill\FireWand.cpp" />
     <ClCompile Include="Effects\Skill\Garlic.cpp" />
+    <ClCompile Include="Effects\DamageCount.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shader\HLSL\Color.hlsl" />

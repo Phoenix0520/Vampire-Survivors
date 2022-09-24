@@ -95,6 +95,7 @@ void FireWand::ResetEffect()
 
 	ENTMANAGER->UpdateMob();
 	mobs = ENTMANAGER->GetAvailMobs();
+	attackedID.clear();
 	attackedID.resize(mobs.size());
 
 	SetActive(true);

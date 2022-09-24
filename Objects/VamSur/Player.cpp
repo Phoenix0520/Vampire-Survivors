@@ -281,8 +281,9 @@ void Player::Render()
 
 	if (skills->GetSkillEquip(7))
 	{
-		SkillEffect* se8 = skills->GetSkillEffect(7);
-		se8->Render();
+		SkillEffect* se = skills->GetSkillEffect(7);
+		se->Render();
+		se->RenderEffect();
 	}
 
 	animation->Render();

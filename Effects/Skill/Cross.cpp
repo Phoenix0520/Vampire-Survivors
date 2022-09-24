@@ -18,21 +18,18 @@ void Cross::UpdateEffect(Matrix V, Matrix P)
 		return;
 	// 투사체 속도
 	
-	if (time <= 0.5f)
+	if (time <= 0.35f)
 	{
 		pos2.x += cosf(angle) * DELTA * (-time * 2.0f + 1.5f) * mSpeed;
 		pos2.y += sinf(angle) * DELTA * (-time * 2.0f + 1.5f) * mSpeed;
-	
-		mSpeed = (250.0f + 250.0f * speed) * (0.5f - time);
 	}
 	else
 	{
 		pos2.x -= cosf(angle) * DELTA * (time + 0.75f) * mSpeed;
 		pos2.y -= sinf(angle) * DELTA * (time + 0.75f) * mSpeed;
-	
-		mSpeed = (200.0f + 200.0f * speed) * (time + 0.5f);
 	}
 
+	mSpeed = 400.0f + 400.0f * (time + 0.75f) * speed;
 	
 	float scale = 2.0f + 2.0f * area;
 	texture->SetScale(scale, scale);
@@ -40,7 +37,7 @@ void Cross::UpdateEffect(Matrix V, Matrix P)
 	texture->SetPosition(pos2);
 	// 이동 및 속도
 	
-	rot = time * time * 540.0f;
+	rot += 720.0f * (time + 0.75f) * DELTA;
 	texture->SetRotation(0.0f, 180.0f, rot);
 	// 회전
 	
@@ -57,8 +54,8 @@ void Cross::UpdateEffect(Matrix V, Matrix P)
 	
 			mobs[i]->Attacked(id);
 
-			if (time < 0.25f)
-				time = 0.25f;
+			if (time < 0.2f)
+				time = 0.2f;
 		}
 	}
 }
@@ -82,6 +79,7 @@ void Cross::ResetEffect()
 
 	ENTMANAGER->UpdateMob();
 	mobs = ENTMANAGER->GetAvailMobs();
+	attackedID.clear();
 	attackedID.resize(mobs.size());
 
 	for (int i = 0; i < MAX_MOB; i++)
