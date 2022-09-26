@@ -11,10 +11,11 @@ public:
 	void Render() override;
 	void Reset() override;
 	bool IsPointInRegion(Vector2 position);
+	bool IsCheck() { return check; }
 
 private:
 	class Texture* texture = nullptr;
 	class Cursor* cursor = nullptr;	
 
-	int  check = 0;
+	int  check = false;
 };
