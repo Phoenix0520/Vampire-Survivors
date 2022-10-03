@@ -23,7 +23,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="Base\Hard\Camera.h" />
-    <ClInclude Include="Base\Soft\clipper.hpp" />
     <ClInclude Include="Base\Soft\Collider.h" />
     <ClInclude Include="Components\SkillHeader.h" />
     <ClInclude Include="Components\SkillList.h" />
@@ -103,7 +102,6 @@
     <ClCompile Include="Base\Hard\Camera.cpp" />
     <ClCompile Include="Base\Hard\Keyboard.cpp" />
     <ClCompile Include="Base\Hard\Mouse.cpp" />
-    <ClCompile Include="Base\Soft\clipper.cpp" />
     <ClCompile Include="Base\Soft\Collider.cpp" />
     <ClCompile Include="Components\framework.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

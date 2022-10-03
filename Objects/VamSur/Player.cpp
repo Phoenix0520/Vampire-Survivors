@@ -123,29 +123,29 @@ void Player::Update(Matrix V, Matrix P)
 		}
 
 		// UnderAttack
-		//for (UINT i = 0; i < mobsInScreen.size(); i++)
-		//{
-		//	Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(mobsInScreen[i]));
-		//
-		//	if (!mob->IsActive())
-		//		continue;
-		//
-		//	if (IsMonsterInRegion(mob))
-		//	{
-		//		if (!mob->GetIntersect())
-		//			continue;
-		//
-		//		if (mob->GetDamage() - def > 0.0f)
-		//		{
-		//			cout << mobsInScreen[i]  << " 번째 몹에게 공격받고 있습니다." << endl;
-		//			hp -= (1.0f / 60.0f) * (mob->GetDamage() - def);
-		//		}
-		//
-		//		ctime = 0.0f;
-		//		
-		//		state = ATTACKED;
-		//	}
-		//}
+
+		vector<Monster*> mobs = ENTMANAGER->GetAvailMobs();
+		for (UINT i = 0; i < mobs.size(); i++)
+		{
+			Monster* mob = mobs[i];
+		
+			if (!mob->IsActive())
+				continue;
+		
+			if (IsMonsterInRegion(mob))
+			{
+				if (!mob->GetIntersect())
+					continue;
+		
+				if (mob->GetDamage() - def > 0.0f)
+				{
+					hp -= (1.0f / 60.0f) * (mob->GetDamage() - def);
+				}
+		
+				ctime = 0.0f;
+				state = ATTACKED;
+			}
+		}
 
 		if (state == ATTACKED)
 		{

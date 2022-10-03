@@ -1073,7 +1073,7 @@ void InGameScene::ShowGUI()
 					else
 						break;
 				}
-
+				
 				item[amount]->SetType((DropItem::Type)(combo - 1));
 
 				ImGui::Separator();

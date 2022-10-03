@@ -82,23 +82,6 @@ void LvUpEffect::Render()
 void LvUpEffect::Reset()
 {
 	Random();
-	//cout << "Reset!" << endl;
-	//
-	//
-	//uniform_int_distribution<> distribution(0, 360);
-	//auto generator = bind(distribution, engine);
-	//
-	//float val = -(WINWIDTH / 2);
-	//camPos = CAMPOS;
-	//
-	//for (int i = 0; i < 21; i++)
-	//{
-	//	texture[i]->SetPosition(val + camPos.x, WINHEIGHT / 2 + camPos.y);
-	//	texture[i]->SetRotation(0.0f, 0.0f, (float)generator());
-	//	texture[i]->SetScale(5.0f, 5.0f);
-	//
-	//	val += (WINWIDTH / 20.0f);
-	//}
 
 }
 

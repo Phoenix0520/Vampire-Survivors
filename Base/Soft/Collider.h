@@ -1,61 +1,49 @@
 #pragma once
-////////////////////////////////////////////////
-//  
-//  GameObject의 Box형태  구현 Class
-//  
-////////////////////////////////////////////////
-class Collider
+
+class Collider	// 충돌을 체크하기 위한 클래스
 {
 public:
-	struct Vertex   // DX에서는 정점에 대한 정의하지 않음, 사용작 정의, Class로 정의는 하지 않음
+	Collider();	// 생성자
+	~Collider(); // 소멸자
+
+public:
+	struct Vertex // 선을 그리기 위한 정점
 	{
-		Vector3 Position;   // Color가 빠진 이유는 충돌이 일어 나면 빨강색
+		Vector3 Position;
 		Color   Color;
 	};
 
 public:
-	void			Update(Matrix View, Matrix Projection);
-	void			Render();
-	
-	// 
-	static         bool   InterSectionLine(Vector2 A, Vector2 B, Vector2 C, Vector2 D);
-	static         bool   PointInRect(Matrix world, Vector2 pos);
-	static         bool   Aabb(Matrix world, Vector2 pos);
-	static         bool   InterSect(class Collider *A, class Collider *B, float advX = 0.0f, float advY = 0.0f);
-	static         int    CCW(Vector2 p1, Vector2 p2, Vector2 p3);
-	static         int    IsLeft(Vector2 left, Vector2 right);
-	// Setter
-	void		    SetPosition(float x, float y) { m_Position = Vector2(x, y); }
-	void		    SetPosition(Vector2 pos) { m_Position = pos; }
-	void		    SetScale(float x, float y) { m_Scale = Vector2(x, y); };
-	void		    SetScale(Vector2 size) { m_Scale = size; };
-	void		    SetRotation(float x, float y, float z) { m_Rotation = Vector3(x, y, z); };
-	void		    SetRotation(Vector3 rot) { m_Rotation = rot; };
-	void            SetWorld(Matrix world) { m_World = world; }
-	void            SetCollisionCheck(bool collision) { m_bCollisionCheck = collision; }
-	
-	// Getter
-	bool				GetCollisionCheck() { return m_bCollisionCheck; }
-	Vector2				GetPosition() { return m_Position; }
-	Vector2				GetScale() { return m_Scale; }
-	Vector3				GetRotation() { return m_Rotation; }
-	Matrix				GetWorld() { return m_World; }
-	vector<Vector2*>    GetAreas();
-private:
-	void                CreateBuffer();
-	void                UpdateBlock(Color color);   // Color값 변경
+	void Update(Matrix View, Matrix Projection); // 설정된 크기로 정점을 찍어준다.
+	void Render(); // 선을 출력한다.
 
+	static bool InterSect(class Collider *A, class Collider *B); // AABB 충돌체크
 
-private:
-	vector<Vector2*>   m_cvPolygons;
-	Vector2			   m_Position = Vector2(0.0f, 0.0f);          // GameObject 좌표
-	Vector2			   m_Scale = Vector2(1.0f, 1.0f);             // GameObject 크기
-	Vector3			   m_Rotation = Vector3(0.0f, 0.0f, 0.0f);    // GameObject 방향 
-	class  ColorShader  *m_pShader = nullptr;
-	ID3D11Buffer       *m_pVertexBuffer = nullptr;
-	Matrix             m_World;                                  // GameObject WorldMatrix  
-	bool               m_bCollisionCheck = false;                // 충돌이 안되어 있는 경우는 false
 public:
-	Collider();
-	~Collider();
+	void		    SetPosition(float x, float y) { position = Vector2(x, y); }
+	void		    SetPosition(Vector2 pos) { position = pos; }
+	void		    SetScale(float x, float y) { scale = Vector2(x, y); };
+	void		    SetScale(Vector2 size) { scale = size; };
+	void		    SetRotation(float x, float y, float z) { rotation = Vector3(x, y, z); };
+	void		    SetRotation(Vector3 rot) { rotation = rot; };
+	void            SetWorld(Matrix value) { world = value; }
+	// Setter 함수
+
+	Vector2			GetPosition() { return position; }
+	Vector2			GetScale() { return scale; }
+	Vector3			GetRotation() { return rotation; }
+	Matrix			GetWorld() { return world; }
+	// Getter 함수
+
+private:
+	void                CreateBuffer(); // Vertex Buffer 생성
+
+private:
+	class  ColorShader* shader = nullptr;		// 선을 그리기 위한 shader
+	ID3D11Buffer*	vertexBuffer = nullptr;		// 선을 그리기 위한 버퍼
+	Vector2			position = Vector2(0.0f, 0.0f);			// GameObject 좌표
+	Vector2			scale = Vector2(1.0f, 1.0f);			// GameObject 크기
+	Vector3			rotation = Vector3(0.0f, 0.0f, 0.0f);	// GameObject 방향 
+	Matrix			world;											// GameObject WorldMatrix  
+
 };

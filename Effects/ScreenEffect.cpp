@@ -43,8 +43,7 @@ void ScreenEffect::Update(Matrix V, Matrix P)
 			SetActive(false);
 
 		time += DELTA * 2.0f;
-		cout << time << endl;
-
+	
 		if (time <= 0.5f)
 			alpha = time * 2.0f;
 		else

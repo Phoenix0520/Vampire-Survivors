@@ -40,7 +40,6 @@
     <ClInclude Include="Effects\BloodEffect.h" />
     <ClInclude Include="Objects\VamSur\EquipList.h" />
     <ClInclude Include="Effects\LvUpEffect.h" />
-    <ClInclude Include="Base\Soft\clipper.hpp" />
     <ClInclude Include="Base\Soft\Collider.h" />
     <ClInclude Include="Effects\HitEffect.h" />
     <ClInclude Include="Components\Resource.h" />
@@ -104,7 +103,6 @@
     <ClCompile Include="Effects\BloodEffect.cpp" />
     <ClCompile Include="Objects\VamSur\EquipList.cpp" />
     <ClCompile Include="Effects\LvUpEffect.cpp" />
-    <ClCompile Include="Base\Soft\clipper.cpp" />
     <ClCompile Include="Base\Soft\Collider.cpp" />
     <ClCompile Include="Effects\HitEffect.cpp" />
     <ClCompile Include="Objects\VamSur\DropItem.cpp" />

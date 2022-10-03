@@ -1,63 +1,45 @@
-#include "Texture.h"
-
-class Texture;
-
 #pragma once
-class Camera
+
+class Camera // 싱글톤 디자인 패턴
 {
-private: // 싱글톤 생성 소멸자
+private:
 	Camera();
 	~Camera();
-
-public: // 전역 함수
+	// 외부에서 생성 및 소멸 불가
+public:
 	static Camera* GetInstance()
 	{
 		static Camera instance;
-
 		return &instance;
 	}
-	// Singleton Instance
+	// Singleton Instance 반환
 
-	void PreUpdate(); // Keyboard
-	void Update();
-	void Update(Matrix V, Matrix P);
-	void Render();
-	// Update, Render
+	void PreUpdate();	// 카메라 조작할시 PreUpdate 에서 위치 조정
+	void Update();		// 카메라의 업데이트
 
 	void VCToWC(Vector2& position);	// View -> Window(2D)
 	void WCToVC(Vector2& position);	// Window -> View
-	void ChangeXY(float x, float y);
-	void ChangeXY(Vector2 xy);
+	// 기능함수
 
-
+public:
+	void SetPosition(float x, float y) { position = Vector2(x, y); }
+	void SetPosition(Vector2 pos) { position = pos; }
+	void SetObject(class GameObject* obj) { object = obj; } 
+	// 해당 오브젝트에 카메라 고정
+	// Setter
+	
 	Matrix	GetViewMatrix() { return view; }
 	Matrix	GetProjMatrix() { return proj; }
 	Vector2 GetPosition() { return position; }
 	// Getter
 
-	void SetPosition(float x, float y) { position = Vector2(x, y); }
-	void SetPosition(Vector2 pos) { position = pos; }
-	void SetObject(class GameObject* obj) { object = obj; }
-
-	void SetCenterXLock(bool val) { centerXLock = val; }
-	void SetCenterYLock(bool val) { centerYLock = val; }
-
-	// Setter
-
 private: // 멤버 변수
-	Vector2	position	= Vector2(0.0f, 0.0f);
-	Vector2 moveSpeed	= Vector2(200.0f, 200.0f);
-	Vector2 offset		= Vector2(0.0f, 0.0f);
-	Matrix	proj;
-	Matrix	view;
-	
-	class Texture*		texture = nullptr;
-	class GameObject*	object	= nullptr;	
+	class GameObject*	object	= nullptr;	// 카메라 고정이 된 오브젝트
 
-	float changeX = 1.0f;
-	float changeY = 1.0f;
+	Vector2	position	= Vector2(0.0f, 0.0f);	// 카메라의 위치
+	Vector2 offset		= Vector2(0.0f, 0.0f);	// 카메라 고정시 위치 오프셋
+	Vector2 moveSpeed	= Vector2(200.0f, 200.0f); // Camera 조작속도
+	Matrix	proj;	// Camera 의 Projection Matrix
+	Matrix	view;	// Camera 의 View Matrix
 
-	bool centerXLock = false;
-	bool centerYLock = false;
-	
 };

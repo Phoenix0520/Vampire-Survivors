@@ -110,8 +110,6 @@ void ChestEffect::Reset()
 
 	gold = (float)generator();
 	value = 0.0f;
-
-	cout << "Chest Effect Reset!" << endl;
 }
 
 

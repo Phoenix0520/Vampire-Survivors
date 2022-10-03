@@ -65,46 +65,22 @@ void Camera::Update()
 
 		position = Vector2(position.x + offset.x, position.y + offset.y - 22.5f);
 
-		if (centerXLock)
-			position.x = 0.0f;
-
 		SetPosition(position);
 	}
 
-	// 기본
-
 	Vector3 eye = Vector3(position.x, position.y, 0.0f);
-	Vector3 up = Vector3(0.0f, changeX, 0.0f);
-	Vector3 at = Vector3(0.0f, 0.0f, changeY);
+	Vector3 up = Vector3(0.0f, 1.0f, 0.0f);
+	Vector3 at = Vector3(0.0f, 0.0f, 1.0f);
 	D3DXMatrixLookAtLH(&view, &eye, &(eye + at), &up);
 
-	// Window가 크기 변경
 	D3DXMatrixOrthoOffCenterLH(&proj,
 		-(float)MAIN->GetWidth()*0.5f,
 		(float)MAIN->GetWidth()*0.5f,
 		-(float)MAIN->GetHeight()*0.5f,
 		(float)MAIN->GetHeight()*0.5f,
-		-changeX, changeY);
-
-	//	Matrix S;
-	//	D3DXMatrixScaling(&S, 0.7f,0.7f,0.0f);
-	//
-	//	m_Projection = m_Projection * S;
+		-1.0f, 1.0f);
 }
 
-void Camera::Update(Matrix V, Matrix P)
-{
-	
-}
-
-void Camera::Render()
-{
-	
-}
-/////////////////////////////////////////////////////////
-// View(실제좌표) Window좌표로 변환
-// 2D로 Text, 2D Line ( DirectX:: 이용)
-////////////////////////////////////////////////////////
 void Camera::VCToWC(Vector2 & posotion)
 {
 	Matrix vp = view * proj;
@@ -117,11 +93,6 @@ void Camera::VCToWC(Vector2 & posotion)
 	D3DXVec2TransformCoord(&posotion, &posotion, &W);
 }
 
-/////////////////////////////////////////////////////
-//   Window좌표를 View좌표
-//   Mouse Position(윈도우)
-/////////////////////////////////////////////////////
-
 void Camera::WCToVC(Vector2 & position)
 {
 	Matrix vp = view * proj;
@@ -132,27 +103,4 @@ void Camera::WCToVC(Vector2 & position)
 	position.y = -((position.y / MAIN->GetHeight())*2.0f - 1.0f);
 
 	D3DXVec2TransformCoord(&position, &position, &vp);
-}
-
-void Camera::ChangeXY(float x, float y)
-{
-	static float firstX = (float)MAIN->GetWidth();
-	static float firstY = (float)MAIN->GetHeight();
-
-	changeX = x;
-	changeY = y;
-
-	//MAIN->SetWindowSize((int)firstX * changeX, (int)firstY * changeY);
-}
-
-void Camera::ChangeXY(Vector2 xy)
-{
-	Vector2 size = xy;
-	static float firstX = (float)MAIN->GetWidth();
-	static float firstY = (float)MAIN->GetHeight();
-
-	changeX = size.x;
-	changeY = size.y;
-
-	//MAIN->SetWindowSize((int)firstX * changeX, (int)firstY * changeY);
 }

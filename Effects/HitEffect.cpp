@@ -48,6 +48,5 @@ void HitEffect::Reset()
 	SetActive(true);
 	texture->SetScale(0.0f, 0.0f);
 	texture->SetPosition(GetPosition());
-	//cout << "Hit Effect Pos : " << position.x << " , " << position.y << endl;
 	time = 0.0f;
 }
