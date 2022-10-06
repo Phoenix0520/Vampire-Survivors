@@ -1,6 +1,6 @@
 #pragma once
 
-#define MAX_MOB		25
+#define MAX_MOB		100
 
 class Monster : public GameObject
 {

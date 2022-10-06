@@ -421,9 +421,15 @@ void InGameScene::ChangeScene()
 	time = 0.0f;
 
 	mt19937 engine((unsigned int)GetTickCount());
-	uniform_int_distribution<> distribution(-500, 500);
-	auto generator = bind(distribution, engine);
+	uniform_int_distribution<int> distribution1(-700, -100);
+	auto generator1 = bind(distribution1, engine);
 	
+	uniform_int_distribution<int> distribution2(100, 700);
+	auto generator2 = bind(distribution2, engine);
+
+	uniform_int_distribution<int> distribution3(0, 1);
+	auto generator3 = bind(distribution3, engine);
+
 	for (int i = 0; i < MAX_MOB; i++)
 	{
 		float x = 0.0f;
@@ -431,14 +437,22 @@ void InGameScene::ChangeScene()
 	
 		Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(i));
 	
-		x = (float)generator();
-		y = (float)generator();
+		if (generator3())
+			x = (float)generator1();
+		else
+			x = (float)generator2();
+
+		if (generator3())
+			y = (float)generator1();
+		else
+			y = (float)generator2();
 	
 		mob->Reset();
 		mob->SetMoving(true);
 		mob->SetMoveSpeed(30.0f);
 		mob->SetIntersect(true);
 		mob->SetDamage(20.0f);
+		mob->SetHp(10.0f);
 		mob->SetPosition(x, y);
 		mob->SetActive(true);
 	}
@@ -666,50 +680,52 @@ void InGameScene::CreateBrazier()
 
 void InGameScene::CreateMonster()
 {
-	return;
-
 	mt19937 engine((unsigned int)GetTickCount());
-	uniform_int_distribution<> distribution(-1000, 1000);
-	auto generator = bind(distribution, engine);
-	
-	static float ratio = 1.2f;
+	uniform_int_distribution<int> distribution1(-500, -250);
+	auto generator1 = bind(distribution1, engine);
 
-	if (rtime >= ratio)
+	uniform_int_distribution<int> distribution2(250, 500);
+	auto generator2 = bind(distribution2, engine);
+
+	uniform_int_distribution<int> distribution3(0, 1);
+	auto generator3 = bind(distribution3, engine);
+
+	static float ctime = 0.0f;
+
+	ctime += DELTA;
+
+	if (ctime >= 0.25f)
 	{
-		for (UINT i = 0; i < MAX_MOB; i++)
-		{
-			Monster* mob = (Monster*)OBJMANAGER->FindObject("Monster" + to_string(i));
+		UINT index = ENTMANAGER->GetAddableMobIndex();
 
-			if (mob->IsActive())
-				continue;
-			else
-			{
-				float x = (float)generator();
-				float y = (float)generator();
+		if (index == ERR_ID)
+			return;
 
-				mob->Reset();
-				mob->SetMoving(true);
-				mob->SetMoveSpeed(30.0f);
-				mob->SetIntersect(true);
-				mob->SetDamage(20.0f);
-				mob->SetPosition(x, y);
-				mob->SetActive(true);
+		float x = 0.0f;
+		float y = 0.0f;
 
-				if (i == 30)
-				{
-					mob->SetHp(150.0f);
-					mob->SetScale(5.0f, 5.0f);
-				}
+		if (generator3())
+			x = (float)generator1();
+		else
+			x = (float)generator2();
 
-				rtime = 0.0f;
-				ratio *= 0.975f;
-				return;
-			}
-		}
+		if (generator3())
+			y = (float)generator1();
+		else
+			y = (float)generator2();
+
+		mob[index]->Reset();
+		mob[index]->SetMoving(true);
+		mob[index]->SetMoveSpeed(30.0f);
+		mob[index]->SetIntersect(true);
+		mob[index]->SetDamage(20.0f);
+		mob[index]->SetHp(50.0f);
+		mob[index]->SetPosition(x + CAMPOS.x, y + CAMPOS.y);
+		mob[index]->SetActive(true);
+
+		ctime = 0.0f;
 	}
-	else
-		rtime += DELTA;
-
+	return;
 }
 
 void InGameScene::OnButtonClicked(int buttonID)
