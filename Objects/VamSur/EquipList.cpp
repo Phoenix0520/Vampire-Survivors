@@ -16,7 +16,7 @@ EquipList::EquipList()
 		player = (Player*)OBJMANAGER->FindObject("Player");
 	}
 
-	// 스킬 할당
+	// 스킬 & 아이템 할당
 	{
 		AssignSkill("Whip", 10.0f, 1.35f);
 		AssignSkill("Magic", 10.0f, 1.25f, 1);
@@ -26,13 +26,6 @@ EquipList::EquipList()
 		AssignSkill("Bible", 10.0f, 6.0f, 3.0f);
 		AssignSkill("Fire", 20.0f, 3.0f, 1);
 		AssignSkill("Garlic", 5.0f, 0.3f);
-		
-		//AssignSkill("Holy", 10, 4.5f);
-		//AssignSkill("Rune", 10, 3.0f);
-		//AssignSkill("Ring", 15, 4.5f);
-		//AssignSkill("Pigeon", 10, 1.0f);
-		//AssignSkill("Clock", 0, 2.0f);
-		//AssignSkill("Bay", 0, 10.0f);
 
 		AssignItem("Spanish", 10.0f, 5);
 		AssignItem("Armor", 1.0f, 5);
@@ -405,9 +398,7 @@ void EquipList::AssignSkill(string name, float damage, float coolTime, float dur
 	Skill* skill = new Skill();
 
 	SkillEffect* se = (SkillEffect*)OBJMANAGER->FindObject("SkillEffect" + to_string(skills.size()));
-	//se->Reset();
 	skill->sEffect = se;
-
 	skill->id = skills.size() - 1;
 	skill->name = name;
 	skill->damage = damage;
@@ -422,7 +413,12 @@ void EquipList::AssignSkill(string name, float damage, float coolTime, float dur
 	skills.push_back(skill);
 }
 
-void EquipList::AssignItem(string name, float value, int maxLv)
+void EquipList::AssignItem
+(
+	string name,
+	float value,
+	int maxLv
+)
 {
 	Item* item = new Item();
 
@@ -442,7 +438,6 @@ void EquipList::ReadTextFile(int row, Vector2& offset, Vector2& offsetSize)
 
 	if (!fp)
 	{
-		cout << "오류!" << endl;
 		return;
 	}
 	char buf[1000];

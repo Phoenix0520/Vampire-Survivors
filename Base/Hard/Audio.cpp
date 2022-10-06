@@ -65,7 +65,6 @@ void CAudio::Play(string name, float volume)
 	{
 		if (name == iter->first)
 		{
-			cout << count << " 번째 소리 " << name << " 재생됨" << endl;
 			
 			system->playSound(FMOD_CHANNEL_FREE, *iter->second, false, &channel[count]);
 			channel[count]->setVolume(volume);

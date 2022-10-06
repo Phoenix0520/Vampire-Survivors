@@ -41,7 +41,6 @@ void FireEffect::Update(Matrix V, Matrix P)
 
 	if (time < 0.0f)
 	{
-		cout << "Fire Effect ²¨Áü" << endl;
 		SetActive(false);
 	}
 

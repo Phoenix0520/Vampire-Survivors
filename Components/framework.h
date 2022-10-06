@@ -136,6 +136,7 @@ typedef D3DXMATRIX	Matrix;
 #include "GameObject.h"
 #include "UIObject.h"
 #include "Collider.h"
+#include "Texture.h"
 
 // Animation
 #include "Animation.h"

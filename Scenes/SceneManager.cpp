@@ -300,8 +300,6 @@ void SceneManager::Update()
 		if (!cb)
 			return;
 
-		cout << cb->IsCheck() << endl;
-
 		if (cb->IsCheck())
 			visibleDamageCount = true;
 		else

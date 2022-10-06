@@ -247,8 +247,6 @@ void Monster::Attacked(int id)
 	
 	hp -= damage;
 	
-	//cout << damage << endl;
-	
 	if (hp <= 0.0f)
 		state = DEAD;
 	

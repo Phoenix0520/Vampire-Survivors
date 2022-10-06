@@ -271,7 +271,6 @@ void InGameUI::ReadTextFile(int row, Vector2 & offset, Vector2 & offsetSize)
 
 	if (!fp)
 	{
-		cout << "¿À·ù!" << endl;
 		return;
 	}
 	char buf[1000];

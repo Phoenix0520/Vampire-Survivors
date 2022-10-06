@@ -700,7 +700,6 @@ void GameOverScene::ReadTextFile(int row, Vector2 & offset, Vector2 & offSize)
 
 	if (!fp)
 	{
-		cout << "¿À·ù!" << endl;
 		return;
 	}
 	char buf[1000];

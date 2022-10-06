@@ -850,7 +850,6 @@ void InGameScene::ShowGUI()
 								lc->UpdateItemCollect(id * 2, true);
 							}
 					}
-
 					if (ImGui::Button("CROSS"))
 					{
 						int id = S_CROSS;
@@ -918,9 +917,7 @@ void InGameScene::ShowGUI()
 								lc->UpdateItemCollect(id * 2, true);
 							}
 					}
-
 					ImGui::EndListBox();
-
 					if (ImGui::Button("Reset A", ImVec2(40.0f, 25.0f)))
 					{
 						cout << "Equipment Reset!" << endl;
@@ -939,9 +936,7 @@ void InGameScene::ShowGUI()
 							}
 						}
 					}
-
 					ImGui::SameLine();
-
 					if (ImGui::Button("All MaxLv", ImVec2(75.0f, 25.0f)))
 					{
 						cout << "Equipment All Max Level!" << endl;
@@ -1164,7 +1159,6 @@ void InGameScene::ShowGUI()
 				amount = 0;
 				ImGui::EndTabItem();
 			}
-
 
 			if (ImGui::BeginTabItem("Brazier"))
 			{

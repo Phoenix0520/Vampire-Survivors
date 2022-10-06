@@ -178,7 +178,6 @@ void ListCtrl::UpdateItemCollectEx(int id, bool val)
 
 	if (arrayID == -1)
 	{
-		cout << "¿À·ù!" << endl;
 		return;
 	}
 

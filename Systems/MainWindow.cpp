@@ -358,7 +358,7 @@ LRESULT MainWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			default:
 				cout << "KeyDown : " << (char)wParam << endl;
 				break;
-
+				
 				cout << endl;
 			}
 		}

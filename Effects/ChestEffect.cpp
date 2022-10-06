@@ -239,8 +239,6 @@ void ChestEffect::Explain()
 		EquipList* list = (EquipList*)OBJMANAGER->FindObject("EquipList");
 		int level = list->GetEquipLevel(type) + 1;
 
-		cout << "아이템 ID : " << type << " 의 레벨 : " << level << endl;
-
 		wstring str = L"레벨 : " + to_wstring(level);
 		Vector2 pos = Vector2(CAMPOS.x - 260.0f, CAMPOS.y - 335.0f);
 		pos.x -= str.length() * 12.5f;
@@ -319,7 +317,6 @@ void ChestEffect::ReadTextFile(int row, Vector2& offset, Vector2& offsetSize)
 
 	if (!fp)
 	{
-		cout << "오류!" << endl;
 		return;
 	}
 	char buf[1000];

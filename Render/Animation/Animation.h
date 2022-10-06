@@ -6,6 +6,11 @@ public:
 	Animation(wstring imageFile, wstring shaderFile);
 	~Animation();
 
+private:
+	class Texture*					texturePtr;
+	vector<class AnimationClip*>	aniClips;
+	UINT							curClip = 0;
+
 public:
 	void Update(Matrix V, Matrix P);
 	void Render();
@@ -34,8 +39,4 @@ public:
 	Vector2 GetTextureRealSize() { return texturePtr->GetTextureRealSize(); }
 	// Getter
 	
-private:
-	class Texture*					texturePtr	= nullptr;
-	vector<class AnimationClip*>	aniClips;
-	UINT							curClip	= 0;
 };

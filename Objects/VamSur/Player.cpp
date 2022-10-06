@@ -480,9 +480,6 @@ void Player::ItemAttack()
 
 void Player::UseRosary()
 {
-	if (!screenEffect)
-		cout << "»ý¼º ¾ÈµÊ" << endl;
-
 	screenEffect->Reset();
 	screenEffect->SetType(ScreenEffect::Type::GLOW_EFFECT);
 }
@@ -667,7 +664,6 @@ void Player::AddExp(float val)
 				if (level <= 50 && level % 10 == 0)
 					power += 0.1f;
 
-				cout << endl << "Level Up!" << endl;
 				exp -= 100.0f;
 			}
 

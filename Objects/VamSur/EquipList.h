@@ -7,34 +7,35 @@ public:
 	~EquipList();
 
 public:
-	struct Skill
+	struct Skill // 스킬에 대한 Desc
 	{
-		string name;
+		string name; // 이름
 		
 		class SkillEffect* sEffect = nullptr;
-		
-		int id			= 0;
-		int level		= 0;
-		int amount		= 1;
+		// 스킬 이펙트
+
+		int id			= 0;	// ID
+		int level		= 0;	// 레벨
+		int amount		= 1;	// 투사체 개수
 		int spear		= 0;	// 0 : All | 1 ~ : Spear Amount
-		float damage	= 0.0f;
-		float speed		= 0.0f;
-		float area		= 0.0f;
-		float coolTime	= 0.0f;
-		float duration  = 0.0f;
-		bool equip		= false;
+		float damage	= 0.0f;	// 데미지
+		float speed		= 0.0f; // 투사체 속도
+		float area		= 0.0f; // 투사체 범위
+		float coolTime	= 0.0f; // 쿨타임 감소
+		float duration  = 0.0f; // 지속시간
+		bool equip		= false; // 보유여부
 	};
 	
-	struct Item
+	struct Item // 아이템의 Desc
 	{
-		string name;
+		string name; // 이름
 		
-		int id			= 0;
-		int level		= 0;
-		int maxLv		= 0;
-		float value		= 0;
-		float totalVal	= 0;
-		bool equip		= false;
+		int id			= 0; // ID
+		int level		= 0; // 레벨
+		int maxLv		= 0; // 최종 레벨
+		float value		= 0; // 레벨당 적용값
+		float totalVal	= 0; // 총 적용값
+		bool equip		= false; // 보유 여부
 	};
 
 public:
@@ -43,11 +44,12 @@ public:
 	void Reset() override;
 	// Display
 	
-	void AssignSkill			(string name, float damage, float coolTime, float duration = 0.0f, int spear = 0);
-	void AssignItem				(string name, float value, int maxLv);
 	void ReadTextFile			(int row, Vector2& offset, Vector2& offsetSize);
 	void SetRenderType			(int val) { type = val; }
 	// General
+	
+	void AssignSkill			(string name, float damage, float coolTime, float duration = 0.0f, int spear = 0);
+	void AssignItem				(string name, float value, int maxLv);
 
 	void UpdateSkillEffect		(int id, SkillEffect* val) { skills[id]->sEffect = val; }
 	void UpdateSkillAmount		(int id, int val) { skills[id]->amount = val; }
